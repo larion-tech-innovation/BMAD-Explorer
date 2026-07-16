@@ -234,7 +234,7 @@ const html = `<!DOCTYPE html>
 </head>
 <body>
   <nav>
-    <a class="brand" href="#top"><img src="logo.png" alt="LARION"><b>BMAD <span>Hub</span></b></a>
+    <a class="brand" href=""><img src="logo.png" alt="LARION"><b>BMAD <span>Hub</span></b></a>
     <div class="links">
       <a href="#bmad">BMAD Structure</a>
       ${bmadOnly ? '' : '<a href="#cis">CIS</a>'}
