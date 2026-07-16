@@ -59,7 +59,6 @@ const section = (id, heading, sub, groups) => {
     <section class="card" id="${id}">
       <div class="card-head">
         <h2>${heading}</h2>
-        <span class="pill">${total} docs</span>
       </div>
       ${groups.filter(g => g.items.length).map(g => `
       <div class="group">
