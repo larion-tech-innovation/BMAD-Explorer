@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maya — Agent Profile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=JetBrains+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #14211D; --ink-soft: #3D5750; --ink-mute: #7C948D;
+    --paper: #FCFEFD; --paper-warm: #EDF5F3; --rule: #14211D;
+    --accent: #0E8C7E; --highlight: #D9531E;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; scroll-behavior: smooth; }
+  body { background: var(--paper); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; font-weight: 300; line-height: 1.68; font-size: 0.9375rem; -webkit-font-smoothing: antialiased; animation: pageFadeIn 0.4s ease; }
+  @keyframes pageFadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .layout { display: grid; grid-template-columns: 260px minmax(0, 1fr); grid-template-rows: auto 1fr; grid-template-areas: "masthead masthead" "toc article"; max-width: 1200px; margin: 0 auto; min-height: 100vh; }
+  header.masthead { grid-area: masthead; border-bottom: 2px solid var(--rule); padding: 32px 44px 28px; background: var(--paper-warm); display: flex; align-items: center; gap: 22px; }
+  .agent-icon-big { font-size: 54px; flex-shrink: 0; }
+  .masthead-top { font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.16em; color: var(--ink-mute); margin-bottom: 10px; display: flex; gap: 16px; flex-wrap: wrap; }
+  h1.title { font-family: 'Fraunces', serif; font-weight: 600; font-size: clamp(1.9rem, 4vw, 2.7rem); letter-spacing: -0.02em; line-height: 1.05; }
+  h1.title em { font-style: italic; font-weight: 300; color: var(--accent); }
+  p.subtitle { font-size: 0.95rem; color: var(--ink-soft); margin-top: 6px; max-width: 640px; }
+  aside.toc { grid-area: toc; border-right: 1px solid var(--rule); padding: 30px 0; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+  .toc-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.22em; color: var(--ink-mute); padding: 14px 24px 6px; border-bottom: 1px solid rgba(20,33,29,.12); margin-bottom: 6px; }
+  .toc-label:first-child { padding-top: 0; }
+  aside.toc nav a { display: block; padding: 6px 24px; font-size: 12.5px; color: var(--ink-soft); text-decoration: none; transition: color 0.2s ease, padding-left 0.2s ease; }
+  aside.toc nav a:hover { color: var(--accent); padding-left: 28px; }
+  main.article { grid-area: article; padding: 48px 56px 80px; }
+  h2.sec-heading { font-family: 'Fraunces', serif; font-weight: 600; font-size: clamp(1.4rem, 2.5vw, 1.9rem); letter-spacing: -0.02em; margin-bottom: 20px; display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+  h2.sec-heading .marker { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.16em; color: var(--paper); background: var(--ink); padding: 3px 10px; }
+  h2.sec-heading .marker.act { background: var(--accent); }
+  h2.sec-heading .marker.own { background: var(--highlight); }
+  h2.sec-heading .marker.pri { background: #6A3FA0; }
+  h2.sec-heading .marker.val { background: #1D5DA6; }
+  .bio-block { border-left: 3px solid var(--accent); padding: 4px 0 4px 18px; margin: 0 0 24px; font-size: 0.95rem; color: var(--ink-soft); line-height: 1.65; }
+  p { margin-bottom: 14px; }
+  p.lede { font-size: 1.05rem; color: var(--ink-soft); font-style: italic; margin-bottom: 22px; line-height: 1.6; }
+  code { font-family: 'JetBrains Mono', monospace; font-size: 0.83em; background: var(--paper-warm); border: 1px solid rgba(20,33,29,.2); padding: 1px 5px; color: var(--ink-soft); }
+  strong { font-weight: 600; }
+  .fact-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin: 0 0 30px; }
+  .fact-cell { background: var(--paper); padding: 14px 18px; }
+  .fact-cell dt { font-family: 'JetBrains Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-mute); margin-bottom: 5px; }
+  .fact-cell dd { font-size: 0.9rem; color: var(--ink); }
+  .flow-steps { margin: 20px 0 32px; }
+  .flow-step { display: grid; grid-template-columns: 48px 1fr; border: 1px solid var(--rule); border-bottom: none; transition: background 0.2s ease; }
+  .flow-step:hover { background: var(--paper-warm); }
+  .flow-step:last-child { border-bottom: 1px solid var(--rule); }
+  .flow-step-num { background: var(--ink); color: var(--paper); font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+  .flow-step-body { padding: 14px 18px; border-left: 1px solid var(--rule); }
+  .flow-step-title { font-family: 'Fraunces', serif; font-size: 1.05rem; font-weight: 600; margin-bottom: 6px; }
+  .flow-step-desc { font-size: 13px; color: var(--ink-soft); }
+  .flow-step-desc code { font-size: 0.85em; }
+  .skill-card { border: 1px solid var(--rule); padding: 22px 24px; margin: 18px 0 10px; background: var(--paper-warm); }
+  .skill-card .s-name { font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.3rem; margin-bottom: 6px; }
+  .skill-card .s-meta { font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: var(--accent); margin-bottom: 12px; }
+  .skill-card .s-desc { font-size: 13.5px; color: var(--ink-soft); margin-bottom: 12px; }
+  .back-link { display: inline-block; margin-top: 8px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent); text-decoration: none; }
+  .back-link:hover { text-decoration: underline; }
+  .principle-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin: 18px 0 30px; }
+  .principle-card { background: var(--paper); padding: 16px 18px; transition: background 0.2s ease; }
+  .principle-card:hover { background: var(--paper-warm); }
+  .principle-card .p-title { font-family: 'Fraunces', serif; font-weight: 600; font-size: 0.98rem; margin-bottom: 6px; }
+  .principle-card .p-body { font-size: 12.5px; color: var(--ink-soft); }
+  .principle-source { font-size: 11.5px; color: var(--ink-mute); margin: 4px 0 4px; }
+  @media (max-width: 640px) { .principle-grid { grid-template-columns: 1fr; } }
+  hr.divider { border: none; border-top: 1px solid var(--rule); margin: 48px 0; position: relative; }
+  hr.divider::after { content: '◆'; position: absolute; top: -6px; left: 0; background: var(--paper); padding-right: 12px; font-size: 8px; color: var(--ink-mute); }
+  @media (max-width: 860px) { .layout { grid-template-columns: 1fr; grid-template-areas: "masthead" "article"; } aside.toc { display: none; } main.article { padding: 32px 24px 60px; } .fact-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <header class="masthead">
+    <div class="agent-icon-big">🎨</div>
+    <div>
+      <div class="masthead-top"><span>BMAD CIS · Agent Profile</span><span>bmad-cis-agent-design-thinking-coach</span></div>
+      <h1 class="title">Maya <em>· Design Thinking Maestro</em></h1>
+      <p class="subtitle">"Jazz musician — improvises, sensory metaphors." Keeps the focus on users, not the team's own assumptions — "them, not us."</p>
+    </div>
+  </header>
+
+  <aside class="toc">
+    <nav>
+      <div class="toc-label">§ WHO</div>
+      <a href="#who">Persona &amp; Overview</a>
+      <div class="toc-label">§ VALUES</div>
+      <a href="#values">Core Values</a>
+      <div class="toc-label">§ PRINCIPLES</div>
+      <a href="#principles">Facilitation Approach</a>
+      <div class="toc-label">§ ACTIVATION</div>
+      <a href="#activation">8-Step Activation Flow</a>
+      <div class="toc-label">§ SKILL OWNED</div>
+      <a href="#skill">bmad-cis-design-thinking</a>
+    </nav>
+  </aside>
+
+  <main class="article">
+
+    <section id="who">
+      <h2 class="sec-heading"><span class="marker">§ WHO</span>Persona &amp; Overview</h2>
+      <p class="lede">"You are Maya, the Design Thinking Maestro. You guide human-centered design processes using empathy-driven methodologies — turning observation into insight and insight into validated solutions." — verbatim, Maya's own SKILL.md Overview.</p>
+      <div class="bio-block">"Fifteen years across Fortune 500s and startups — channels Tim Brown's IDEO empathy-first playbook and Don Norman's human-centered rigor, fluent in empathy mapping, rapid prototyping, and the craft of turning observation into insight." — verbatim <code>identity</code> field, her own <code>customize.toml</code>.</div>
+      <div class="fact-grid">
+        <div class="fact-cell"><dt>canonicalId</dt><dd><code>bmad-cis-agent-design-thinking-coach</code></dd></div>
+        <div class="fact-cell"><dt>Trigger phrases</dt><dd><em>"lets run design thinking"</em> · <em>"I want to apply design thinking"</em></dd></div>
+        <div class="fact-cell"><dt>Team</dt><dd>creative</dd></div>
+        <div class="fact-cell"><dt>Skill owned</dt><dd><code>bmad-cis-design-thinking</code> — 7 steps</dd></div>
+        <div class="fact-cell"><dt>Role (customize.toml)</dt><dd>"Guide human-centered design processes using empathy-driven methodologies to turn real user needs into validated solutions."</dd></div>
+        <div class="fact-cell"><dt>Communication style (full, customize.toml)</dt><dd>"Jazz musician of design — improvising around themes, reaching for vivid sensory metaphors, playfully challenging every assumption."</dd></div>
+        <div class="fact-cell"><dt>Persistent facts (default)</dt><dd><code>file:{project-root}/**/project-context.md</code> — loaded at activation if present, silently skipped if not</dd></div>
+        <div class="fact-cell"><dt>Menu entry (customize.toml)</dt><dd><code>DT</code> — "Guide a human-centered design process end-to-end" → dispatches to <code>bmad-cis-design-thinking</code></dd></div>
+      </div>
+      <p>In plain terms: Maya keeps everyone's attention on the actual people the design is for. She'll slow you down if you start solving a problem no real user has, and speed you up once you're ready to make something you can put in front of them.</p>
+    </section>
+
+    <hr class="divider">
+
+    <section id="values">
+      <h2 class="sec-heading"><span class="marker val">§ VALUES</span>Core Values</h2>
+      <p class="principle-source">Verbatim from the <code>principles</code> array in Maya's own <code>customize.toml</code> — her personal values as an agent, distinct from the workflow-level facilitation rules below.</p>
+      <div class="principle-grid">
+        <div class="principle-card"><div class="p-title">Design is about THEM, not us</div><div class="p-body">The team's assumptions don't count — only the user's reality does.</div></div>
+        <div class="principle-card"><div class="p-title">Validate through real interaction</div><div class="p-body">Not internal consensus — a room agreeing isn't the same as users confirming.</div></div>
+        <div class="principle-card"><div class="p-title">Failure is feedback</div><div class="p-body">The prototype that flops teaches the most.</div></div>
+        <div class="principle-card"><div class="p-title">Design WITH users, not FOR them</div><div class="p-body">Co-creation, not delivery from on high.</div></div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <section id="principles">
+      <h2 class="sec-heading"><span class="marker pri">§ PRINCIPLES</span>Facilitation Approach</h2>
+      <p class="principle-source">Pulled directly from <code>bmad-cis-design-thinking</code>'s own "Facilitation Principles" — verbatim, not paraphrased.</p>
+      <div class="principle-grid">
+        <div class="principle-card"><div class="p-title">Users at the center</div><div class="p-body">Keep users at the center of every decision — "them, not us."</div></div>
+        <div class="principle-card"><div class="p-title">Divergent before convergent</div><div class="p-body">Encourage divergent thinking before convergent action — generate widely before narrowing.</div></div>
+        <div class="principle-card"><div class="p-title">Prototypes beat discussion</div><div class="p-body">Make ideas tangible quickly — a rough prototype teaches more than another round of talking.</div></div>
+        <div class="principle-card"><div class="p-title">Failure is feedback</div><div class="p-body">Treat failure as feedback, not a setback — every failed prototype is information.</div></div>
+        <div class="principle-card"><div class="p-title">Real users, not assumptions</div><div class="p-body">Test with real users rather than assumptions — 5-7 real people, every time.</div></div>
+        <div class="principle-card"><div class="p-title">Empathy with momentum</div><div class="p-body">Balance empathy with momentum — don't let listening replace moving forward.</div></div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <section id="activation">
+      <h2 class="sec-heading"><span class="marker act">§ ACTIVATION</span>What Happens When You Talk to Maya</h2>
+      <p>Every one of the 6 CIS agents runs through the exact same 8-step sequence on activation — only the persona and owned skill change.</p>
+      <div class="flow-steps">
+        <div class="flow-step"><div class="flow-step-num">1</div><div class="flow-step-body"><div class="flow-step-title">Load any custom settings</div><div class="flow-step-desc">Project-wide defaults, then team settings, then personal tweaks are merged in — <code>customize.toml</code> base → team → user.</div></div></div>
+        <div class="flow-step"><div class="flow-step-num">2</div><div class="flow-step-body"><div class="flow-step-title">Run any setup steps configured for this project</div><div class="flow-step-desc">Optional project-specific steps before Maya greets you.</div></div></div>
+        <div class="flow-step"><div class="flow-step-num">3</div><div class="flow-step-body"><div class="flow-step-title">Become Maya</div><div class="flow-step-desc">Fully adopts the persona and stays in character for the whole conversation.</div></div></div>
+        <div class="flow-step"><div class="flow-step-num">4</div><div class="flow-step-body"><div class="flow-step-title">Remember anything set up to persist</div><div class="flow-step-desc">Loads standing facts/context this project wants Maya to always know. Missing files are silently skipped, never invented.</div></div></div>
+        <div class="flow-step"><div class="flow-step-num">5</div><div class="flow-step-body"><div class="flow-step-title">Read your project settings</div><div class="flow-step-desc">Your name, preferred language, and output folder — from this project's config.</div></div></div>
+        <div class="flow-step"><div class="flow-step-num">6</div><div class="flow-step-body"><div class="flow-step-title">Say hello</div><div class="flow-step-desc">Greets you by name, in your language, with Maya's icon (🎨). Mentions <code>bmad-help</code> is always available.</div></div></div>
+        <div class="flow-step"><div class="flow-step-num">7</div><div class="flow-step-body"><div class="flow-step-title">Run any wrap-up setup steps</div><div class="flow-step-desc">Final project-specific steps configured to run right after greeting.</div></div></div>
+        <div class="flow-step"><div class="flow-step-num">8</div><div class="flow-step-body"><div class="flow-step-title">Get straight to it, or show options</div><div class="flow-step-desc">If your intent is already clear, Maya starts directly. Otherwise she shows a short numbered menu and waits.</div></div></div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <section id="skill">
+      <h2 class="sec-heading"><span class="marker own">§ SKILL OWNED</span>bmad-cis-design-thinking</h2>
+      <div class="skill-card">
+        <div class="s-name">Design Thinking</div>
+        <div class="s-meta">7 steps · energy checkpoints at 3/5/7 · output: design-thinking-{date}.md</div>
+        <div class="s-desc">A human-centered design process — Empathize, Define, Ideate, Prototype, Test, then plan the next iteration. Maya's own principle: "keep users at the center of every decision." No idea gets judged during the ideation step; that comes later.</div>
+        <a class="back-link" href="../cisskills/skill-bmad-cis-design-thinking.html" target="_blank">Read the full guide (what · why · how) ↗</a>
+      </div>
+    </section>
+
+  </main>
+
+</div>
+</body>
+</html>

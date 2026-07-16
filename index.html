@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BMAD Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f5f7fb; --panel: #ffffff; --border: #e6ebf3;
+      --fg: #0f1e33; --muted: #64748b;
+      --brand-blue: #0072ce; --brand-blue-dark: #1b4b9b; --brand-red: #e4032e;
+      --grad: linear-gradient(135deg, #0072ce, #1b4b9b);
+      --shadow: 0 4px 24px rgba(15, 23, 42, .06);
+      --nav-h: 64px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: calc(var(--nav-h) + 16px); }
+    body {
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg); color: var(--fg); line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Sticky glass nav */
+    nav {
+      position: sticky; top: 0; z-index: 50; height: var(--nav-h);
+      display: flex; align-items: center; gap: 1rem;
+      padding: 0 1.5rem; background: rgba(255, 255, 255, .8);
+      backdrop-filter: saturate(180%) blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav .brand { display: flex; align-items: center; gap: .6rem; font-weight: 700; text-decoration: none;}
+    nav .brand img { height: 30px; }
+    nav .brand b { color: var(--brand-blue-dark); }
+    nav .brand b span { color: var(--brand-red); }
+    nav .links { display: flex; gap: .25rem; margin-left: .5rem; }
+    nav .links a {
+      color: var(--muted); text-decoration: none; font-size: .88rem; font-weight: 500;
+      padding: .4rem .7rem; border-radius: 8px; transition: .15s;
+    }
+    nav .links a:hover { color: var(--brand-blue); background: #eef4fc; }
+    nav .search {
+      margin-left: auto; position: relative; display: flex; align-items: center;
+    }
+    nav .search svg { position: absolute; left: .65rem; width: 15px; height: 15px; color: var(--muted); pointer-events: none; }
+    nav .search input {
+      font: inherit; font-size: .88rem; padding: .5rem .8rem .5rem 2rem;
+      border: 1px solid var(--border); border-radius: 999px; background: #f8fafc;
+      color: var(--fg); width: 220px; outline: none; transition: .15s;
+    }
+    nav .search input:focus { border-color: var(--brand-blue); background: #fff; box-shadow: 0 0 0 3px rgba(0,114,206,.12); width: 260px; }
+
+    /* Hero */
+    header {
+      position: relative; padding: 4rem 1.5rem 3rem; text-align: center; overflow: hidden;
+      background:
+        radial-gradient(600px circle at 20% 0%, rgba(0,114,206,.10), transparent 60%),
+        radial-gradient(500px circle at 85% 20%, rgba(228,3,46,.08), transparent 55%);
+    }
+    header .logo { height: 88px; width: auto; margin-bottom: 1.5rem; filter: drop-shadow(0 6px 16px rgba(15,23,42,.12)); }
+    header h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; letter-spacing: -.02em; color: var(--brand-blue-dark); }
+    header h1 span { background: linear-gradient(135deg, var(--brand-red), #ff5a75); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    header p { color: var(--muted); margin: .6rem auto 0; font-size: 1.1rem; max-width: 560px; }
+    .stats { display: flex; justify-content: center; gap: 2.5rem; margin-top: 2rem; flex-wrap: wrap; }
+    .stats div { display: flex; flex-direction: column; }
+    .stats b { font-size: 1.8rem; font-weight: 800; color: var(--brand-blue-dark); line-height: 1; }
+    .stats small { color: var(--muted); font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; margin-top: .35rem; }
+
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 2.5rem 1.5rem 5rem; }
+    .card {
+      position: relative; background: var(--panel); border: 1px solid var(--border);
+      border-radius: 18px; padding: 1.75rem 2rem; margin-bottom: 1.75rem;
+      box-shadow: var(--shadow); overflow: hidden;
+      opacity: 0; transform: translateY(16px); animation: rise .5s forwards;
+    }
+    .card::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 4px; background: var(--grad); }
+    .card:nth-child(2) { animation-delay: .08s; }
+    @keyframes rise { to { opacity: 1; transform: none; } }
+    .card-head { display: flex; align-items: center; gap: .75rem; }
+    .card h2 { font-size: 1.5rem; font-weight: 700; color: var(--brand-blue-dark); }
+    .pill {
+      font-size: .72rem; font-weight: 600; color: var(--brand-blue);
+      background: #eef4fc; border: 1px solid #d9e7f8; border-radius: 999px; padding: .15rem .6rem;
+    }
+    .sub { color: var(--muted); margin: .35rem 0 1.25rem; }
+    .group { margin-top: 1.5rem; }
+    .group h3 {
+      font-size: .78rem; text-transform: uppercase; letter-spacing: .09em;
+      color: var(--brand-blue); margin-bottom: .65rem; display: flex; align-items: center; gap: .4rem;
+    }
+    .count {
+      background: #eef2f9; color: var(--muted); border-radius: 999px;
+      padding: .05rem .5rem; font-size: .7rem; font-weight: 600;
+    }
+    ul { list-style: none; display: grid; gap: .7rem;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
+    li a {
+      display: flex; align-items: center; gap: .75rem;
+      padding: .7rem .8rem; border-radius: 14px;
+      color: var(--fg); text-decoration: none; background: var(--panel);
+      border: 1px solid var(--border); font-size: .9rem; font-weight: 500;
+      position: relative; overflow: hidden;
+      transition: transform .2s cubic-bezier(.2,.8,.2,1), box-shadow .2s, border-color .2s;
+    }
+    li a .ico {
+      flex: 0 0 auto; width: 34px; height: 34px; border-radius: 10px;
+      display: grid; place-items: center; font-size: .95rem; font-weight: 700;
+      color: #fff; background: var(--grad); box-shadow: 0 2px 6px rgba(0,114,206,.35);
+      transition: transform .2s;
+    }
+    li a .txt {
+      flex: 1 1 auto; min-width: 0; line-height: 1.3;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    li a .chev {
+      flex: 0 0 auto; color: var(--muted); font-size: 1.35rem; font-weight: 700;
+      transform: translateX(-4px); opacity: .5; transition: .2s;
+    }
+    li a:hover {
+      border-color: transparent; transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(15, 23, 42, .14);
+    }
+    li a:hover .ico { transform: scale(1.08) rotate(-4deg); background: linear-gradient(135deg, var(--brand-red), #ff5a75); box-shadow: 0 4px 12px rgba(228,3,46,.4); }
+    li a:hover .chev { transform: translateX(0); opacity: 1; color: var(--brand-blue); }
+    li a::after {
+      content: ""; position: absolute; inset: 0; border-radius: 14px; padding: 1px;
+      background: var(--grad); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude;
+      opacity: 0; transition: opacity .2s; pointer-events: none;
+    }
+    li a:hover::after { opacity: 1; }
+    li.hidden { display: none; }
+    .group.hidden, .card.hidden { display: none; }
+    .no-results { text-align: center; color: var(--muted); padding: 3rem 1rem; display: none; }
+    .no-results.show { display: block; }
+
+    footer { text-align: center; color: var(--muted); font-size: .85rem; padding: 2rem 1.5rem 3rem; border-top: 1px solid var(--border); }
+    footer b { color: var(--brand-blue-dark); }
+
+    @media (max-width: 720px) {
+      nav .links { display: none; }
+      nav .search input { width: 150px; }
+      nav .search input:focus { width: 170px; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a class="brand" href="#top"><img src="logo.png" alt="LARION"><b>BMAD <span>Hub</span></b></a>
+    <div class="links">
+      <a href="#bmad">BMAD Method</a>
+      <a href="#cis">Creative Studio</a>
+    </div>
+    <label class="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/></svg>
+      <input id="q" type="search" placeholder="Search docs…" autocomplete="off">
+    </label>
+  </nav>
+  <div class="wrap">
+
+    <section class="card" id="bmad">
+      <div class="card-head">
+        <h2>BMAD</h2>
+        <span class="pill">41 docs</span>
+      </div>
+      
+      <div class="group">
+        <h3>Docs <span class="count">2</span></h3>
+        <ul>
+        <li><a href="BMAD/bmad-bmm-v610-WITH_TEA.html" data-name="bmm-v610-with_tea"><span class="ico">B</span><span class="txt">bmm-v610-WITH_TEA</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD/bmad-bmm-v610-main.html" data-name="bmm-v610-main"><span class="ico">B</span><span class="txt">bmm-v610-main</span><span class="chev">›</span></a></li>
+        </ul>
+      </div>
+      <div class="group">
+        <h3>Core Skills <span class="count">21</span></h3>
+        <ul>
+        <li><a href="BMAD/bmadskills/skill-bmad-architecture.html" data-name="architecture"><span class="ico">A</span><span class="txt">architecture</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD/bmadskills/skill-bmad-brainstorming.html" data-name="brainstorming"><span class="ico">B</span><span class="txt">brainstorming</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD/bmadskills/skill-bmad-check-implementation-readiness.html" data-name="check-implementation-readiness"><span class="ico">C</span><span class="txt">check-implementation-readiness</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD/bmadskills/skill-bmad-code-review.html" data-name="code-review"><span class="ico">C</span><span class="txt">code-review</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD/bmadskills/skill-bmad-correct-course.html" data-name="correct-course"><span class="ico">C</span><span class="txt">correct-course</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD/bmadskills/skill-bmad-create-epics-and-stories.html" data-name="create-epics-and-stories"><span class="ico">C</span><span class="txt">create-epics-and-stories</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD/bmadskills/skill-bmad-create-story.html" data-name="create-story"><span class="ico">C</span><span class="txt">create-story</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD/bmadskills/skill-bmad-dev-auto.html" data-name="dev-auto"><span class="ico">D</span><span class="txt">dev-auto</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD/bmadskills/skill-bmad-dev-story.html" data-name="dev-story"><span class="ico">D</span><span class="txt">dev-story</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD/bmadskills/skill-bmad-knowledge.html" data-name="knowledge"><span class="ico">K</span><span class="txt">knowledge</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD/bmadskills/skill-bmad-prd.html" data-name="prd"><span class="ico">P</span><span class="txt">prd</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD/bmadskills/skill-bmad-prfaq.html" data-name="prfaq"><span class="ico">P</span><span class="txt">prfaq</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD/bmadskills/skill-bmad-product-brief.html" data-name="product-brief"><span class="ico">P</span><span class="txt">product-brief</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD/bmadskills/skill-bmad-qa-generate-e2e-tests.html" data-name="qa-generate-e2e-tests"><span class="ico">Q</span><span class="txt">qa-generate-e2e-tests</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD/bmadskills/skill-bmad-quick-dev.html" data-name="quick-dev"><span class="ico">Q</span><span class="txt">quick-dev</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD/bmadskills/skill-bmad-research-trio.html" data-name="research-trio"><span class="ico">R</span><span class="txt">research-trio</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD/bmadskills/skill-bmad-retrospective.html" data-name="retrospective"><span class="ico">R</span><span class="txt">retrospective</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD/bmadskills/skill-bmad-sprint-planning.html" data-name="sprint-planning"><span class="ico">S</span><span class="txt">sprint-planning</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD/bmadskills/skill-bmad-sprint-status.html" data-name="sprint-status"><span class="ico">S</span><span class="txt">sprint-status</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD/bmadskills/skill-bmad-tmt.html" data-name="tmt"><span class="ico">T</span><span class="txt">tmt</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD/bmadskills/skill-bmad-ux.html" data-name="ux"><span class="ico">U</span><span class="txt">ux</span><span class="chev">›</span></a></li>
+        </ul>
+      </div>
+      <div class="group">
+        <h3>Test Architecture (TEA) <span class="count">9</span></h3>
+        <ul>
+        <li><a href="BMAD/bmadskills/skill-bmad-tea-workflow.html" data-name="tea-workflow"><span class="ico">T</span><span class="txt">tea-workflow</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD/bmadskills/skill-bmad-testarch-atdd.html" data-name="testarch-atdd"><span class="ico">T</span><span class="txt">testarch-atdd</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD/bmadskills/skill-bmad-testarch-automate.html" data-name="testarch-automate"><span class="ico">T</span><span class="txt">testarch-automate</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD/bmadskills/skill-bmad-testarch-ci.html" data-name="testarch-ci"><span class="ico">T</span><span class="txt">testarch-ci</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD/bmadskills/skill-bmad-testarch-framework.html" data-name="testarch-framework"><span class="ico">T</span><span class="txt">testarch-framework</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD/bmadskills/skill-bmad-testarch-nfr.html" data-name="testarch-nfr"><span class="ico">T</span><span class="txt">testarch-nfr</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD/bmadskills/skill-bmad-testarch-test-design.html" data-name="testarch-test-design"><span class="ico">T</span><span class="txt">testarch-test-design</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD/bmadskills/skill-bmad-testarch-test-review.html" data-name="testarch-test-review"><span class="ico">T</span><span class="txt">testarch-test-review</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD/bmadskills/skill-bmad-testarch-trace.html" data-name="testarch-trace"><span class="ico">T</span><span class="txt">testarch-trace</span><span class="chev">›</span></a></li>
+        </ul>
+      </div>
+      <div class="group">
+        <h3>Web Design System (WDS) <span class="count">9</span></h3>
+        <ul>
+        <li><a href="BMAD/bmadskills/wds-0-alignment-signoff.html" data-name="alignment-signoff"><span class="ico">A</span><span class="txt">alignment-signoff</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD/bmadskills/wds-1-project-brief.html" data-name="project-brief"><span class="ico">P</span><span class="txt">project-brief</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD/bmadskills/wds-2-trigger-mapping.html" data-name="trigger-mapping"><span class="ico">T</span><span class="txt">trigger-mapping</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD/bmadskills/wds-3-scenarios.html" data-name="scenarios"><span class="ico">S</span><span class="txt">scenarios</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD/bmadskills/wds-4-ux-design.html" data-name="ux-design"><span class="ico">U</span><span class="txt">ux-design</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD/bmadskills/wds-5-agentic-development.html" data-name="agentic-development"><span class="ico">A</span><span class="txt">agentic-development</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD/bmadskills/wds-6-asset-generation.html" data-name="asset-generation"><span class="ico">A</span><span class="txt">asset-generation</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD/bmadskills/wds-7-design-system.html" data-name="design-system"><span class="ico">D</span><span class="txt">design-system</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD/bmadskills/wds-8-product-evolution.html" data-name="product-evolution"><span class="ico">P</span><span class="txt">product-evolution</span><span class="chev">›</span></a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="card" id="cis">
+      <div class="card-head">
+        <h2>Creative Innovation Studio</h2>
+        <span class="pill">12 docs</span>
+      </div>
+      
+      <div class="group">
+        <h3>Docs <span class="count">1</span></h3>
+        <ul>
+        <li><a href="BMAD_CIS/bmad-cis/bmad-cis-v0.2.1.html" data-name="cis-v0.2.1"><span class="ico">C</span><span class="txt">cis-v0.2.1</span><span class="chev">›</span></a></li>
+        </ul>
+      </div>
+      <div class="group">
+        <h3>Agents <span class="count">6</span></h3>
+        <ul>
+        <li><a href="BMAD_CIS/bmad-cis/cisagents/agent-caravaggio.html" data-name="caravaggio"><span class="ico">C</span><span class="txt">caravaggio</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD_CIS/bmad-cis/cisagents/agent-carson.html" data-name="carson"><span class="ico">C</span><span class="txt">carson</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD_CIS/bmad-cis/cisagents/agent-maya.html" data-name="maya"><span class="ico">M</span><span class="txt">maya</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD_CIS/bmad-cis/cisagents/agent-quinn.html" data-name="quinn"><span class="ico">Q</span><span class="txt">quinn</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD_CIS/bmad-cis/cisagents/agent-sophia.html" data-name="sophia"><span class="ico">S</span><span class="txt">sophia</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD_CIS/bmad-cis/cisagents/agent-victor.html" data-name="victor"><span class="ico">V</span><span class="txt">victor</span><span class="chev">›</span></a></li>
+        </ul>
+      </div>
+      <div class="group">
+        <h3>Skills <span class="count">5</span></h3>
+        <ul>
+        <li><a href="BMAD_CIS/bmad-cis/cisskills/skill-bmad-brainstorming.html" data-name="brainstorming"><span class="ico">B</span><span class="txt">brainstorming</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD_CIS/bmad-cis/cisskills/skill-bmad-cis-design-thinking.html" data-name="cis-design-thinking"><span class="ico">C</span><span class="txt">cis-design-thinking</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD_CIS/bmad-cis/cisskills/skill-bmad-cis-innovation-strategy.html" data-name="cis-innovation-strategy"><span class="ico">C</span><span class="txt">cis-innovation-strategy</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD_CIS/bmad-cis/cisskills/skill-bmad-cis-problem-solving.html" data-name="cis-problem-solving"><span class="ico">C</span><span class="txt">cis-problem-solving</span><span class="chev">›</span></a></li>
+        <li><a href="BMAD_CIS/bmad-cis/cisskills/skill-bmad-cis-storytelling.html" data-name="cis-storytelling"><span class="ico">C</span><span class="txt">cis-storytelling</span><span class="chev">›</span></a></li>
+        </ul>
+      </div>
+    </section>
+    <p class="no-results">No documents match your search.</p>
+  </div>
+  <footer><b>BMAD Structure</b> &middot; 53 documents &middot; LARION</footer>
+  <script>
+    const q = document.getElementById('q');
+    const items = [...document.querySelectorAll('li a')];
+    const groups = [...document.querySelectorAll('.group')];
+    const cards = [...document.querySelectorAll('.card')];
+    const noResults = document.querySelector('.no-results');
+    q.addEventListener('input', () => {
+      const term = q.value.trim().toLowerCase();
+      items.forEach(a => a.parentElement.classList.toggle('hidden', term && !a.dataset.name.includes(term)));
+      groups.forEach(g => g.classList.toggle('hidden', ![...g.querySelectorAll('li')].some(li => !li.classList.contains('hidden'))));
+      cards.forEach(c => c.classList.toggle('hidden', ![...c.querySelectorAll('.group')].some(g => !g.classList.contains('hidden'))));
+      noResults.classList.toggle('show', term && cards.every(c => c.classList.contains('hidden')));
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CIS · Changelog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=JetBrains+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #FFFFFF; --paper-deep: #F2F7F6; --ink: #14211D; --ink-soft: #3D5750; --ink-mute: #7C948D;
+    --rule: #14211D; --rule-soft: rgba(20,33,29,0.15); --accent: #0E8C7E; --accent-tint: rgba(14,140,126,0.08);
+    --coral: #D9531E;
+    --label-new: #0E8C7E; --label-new-tint: rgba(14,140,126,0.08);
+    --label-updated: #1D5DA6; --label-updated-tint: rgba(29,93,166,0.08);
+    --label-rewritten: #6A3FA0; --label-rewritten-tint: rgba(106,63,160,0.08);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--paper); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; font-weight: 300; line-height: 1.6; padding: 32px 16px 100px; -webkit-font-smoothing: antialiased; }
+  .page { max-width: 900px; margin: 0 auto; background: var(--paper); border: 1px solid var(--rule); padding: 52px 52px 64px; box-shadow: 0 40px 90px -40px rgba(20,20,20,0.24); }
+  h1.doc-title { font-family: 'Fraunces', serif; font-weight: 600; font-size: 40px; letter-spacing: -0.015em; }
+  .doc-intro { margin-top: 16px; color: var(--ink-soft); font-size: 15px; max-width: 640px; padding-bottom: 26px; border-bottom: 2px solid var(--rule); }
+  .doc-intro a { color: var(--accent); }
+  .doc-intro code { font-family: 'JetBrains Mono', monospace; font-size: 0.85em; background: var(--paper-deep); padding: 1px 5px; }
+  .stats-glance { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 24px; margin: 24px 0 32px; padding: 15px 20px; background: var(--paper-deep); border: 1px solid var(--rule-soft); }
+  .stats-glance-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute); width: 100%; margin-bottom: 4px; }
+  .stat-item { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; display: inline-flex; align-items: baseline; gap: 6px; }
+  .stat-k { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mute); }
+  .stats-glance .now { color: var(--ink); font-weight: 600; }
+  .version-block { padding-top: 8px; }
+  .version-head { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; margin-bottom: 10px; flex-wrap: wrap; }
+  .version-head h2 { font-family: 'Fraunces', serif; font-size: 30px; font-weight: 600; letter-spacing: -0.01em; }
+  .version-meta { display: flex; gap: 14px; align-items: baseline; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: var(--ink-mute); }
+  .gh-link { color: var(--accent); text-decoration: none; transition: color 0.2s ease; }
+  .gh-link:hover { color: var(--coral); text-decoration: underline; }
+  .version-headline { font-size: 14px; color: var(--ink-soft); margin-bottom: 20px; line-height: 1.6; }
+  .change-section { border: 1px solid var(--rule-soft); margin-bottom: 10px; }
+  .change-section > .toggle { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 10px; background: var(--paper-deep); border: none; padding: 13px 18px; font-family: 'IBM Plex Sans', sans-serif; font-weight: 500; font-size: 14px; color: var(--ink); cursor: pointer; text-align: left; transition: background 0.2s ease; }
+  .change-section > .toggle:hover { background: var(--accent-tint); }
+  .change-section > .toggle .count { font-family: 'JetBrains Mono', monospace; font-weight: 400; font-size: 11px; color: var(--ink-mute); }
+  .change-section > .toggle .chev { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--ink-mute); transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+  .change-section[data-open="true"] > .toggle .chev { transform: rotate(90deg); }
+  .change-section .entries { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
+  .change-section .entries > div { overflow: hidden; }
+  .change-section[data-open="true"] .entries { grid-template-rows: 1fr; }
+  .entries-inner { padding: 4px 18px 14px; }
+  .entry { padding: 12px 0; border-top: 1px solid var(--rule-soft); }
+  .entry:first-child { border-top: none; }
+  .entry-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .label { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; padding: 2px 7px; }
+  .label-new { background: var(--label-new-tint); color: var(--label-new); }
+  .label-updated { background: var(--label-updated-tint); color: var(--label-updated); }
+  .label-rewritten { background: var(--label-rewritten-tint); color: var(--label-rewritten); }
+  .skill-name { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; }
+  .before-after { font-size: 13.5px; color: var(--ink-soft); }
+  .before-after .was { color: var(--ink-mute); text-decoration: line-through; text-decoration-color: rgba(124,148,141,0.5); }
+  .before-after .arrow { color: var(--accent); font-weight: 700; padding: 0 5px; }
+  .before-after .now { color: var(--ink); font-weight: 500; }
+  .back-btn { position: fixed; bottom: 28px; right: 28px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; padding: 11px 20px; background: var(--ink); color: var(--paper); border: none; cursor: pointer; text-decoration: none; display: inline-block; box-shadow: 0 6px 16px rgba(20,20,20,0.3); transition: transform 0.2s ease, box-shadow 0.2s ease; }
+  .back-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(20,20,20,0.35); }
+</style>
+</head>
+<body>
+<div class="page">
+  <h1 class="doc-title">BMAD CIS Changelog</h1>
+  <p class="doc-intro">This is a condensed changelog for the BMAD Creative Intelligence Suite (CIS) module — a fast way to see what changed release to release. For the full detail, visit the official <a href="https://github.com/bmad-code-org/bmad-module-creative-intelligence-suite/blob/main/CHANGELOG.md">GitHub CHANGELOG.md ↗</a>.</p>
+
+  <div class="stats-glance">
+    <span class="stats-glance-label">Stats at a glance — v0.2.1 (first tracked build)</span>
+    <span class="stat-item"><span class="stat-k">Agents</span><span class="now">06</span></span>
+    <span class="stat-item"><span class="stat-k">Workflow skills</span><span class="now">04</span></span>
+    <span class="stat-item"><span class="stat-k">Cross-listed core skills</span><span class="now">01</span></span>
+    <span class="stat-item"><span class="stat-k">Steps</span><span class="now">35</span></span>
+  </div>
+
+  <section class="version-block">
+    <div class="version-head">
+      <h2>v0.2.0</h2>
+      <div class="version-meta">
+        <span>Released 2026-04-21</span>
+        <a class="gh-link" href="https://github.com/bmad-code-org/bmad-module-creative-intelligence-suite/blob/main/CHANGELOG.md" target="_blank">View on GitHub ↗</a>
+      </div>
+    </div>
+    <p class="version-headline">Every agent and workflow skill gains layered customization — a base → team → personal override system, so studios can tune CIS's persona and behavior without forking the module.</p>
+
+    <div class="change-section" data-open="true">
+      <button class="toggle"><span>Agent updates</span><span class="count">(1 change)</span><span class="chev">▸</span></button>
+      <div class="entries"><div class="entries-inner">
+        <div class="entry">
+          <div class="entry-head"><span class="label label-updated">UPDATED</span><span class="skill-name">all 6 bmad-cis-agent-*</span></div>
+          <p class="before-after"><span class="was">Fixed persona, no override surface</span><span class="arrow">→</span><span class="now">customize.toml exposes role, identity, communication style, principles, and menu entries; merges base → team → personal</span></p>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="change-section" data-open="false">
+      <button class="toggle"><span>Workflow updates</span><span class="count">(2 changes)</span><span class="chev">▸</span></button>
+      <div class="entries"><div class="entries-inner">
+        <div class="entry">
+          <div class="entry-head"><span class="label label-rewritten">REWRITTEN</span><span class="skill-name">all 4 workflow skills</span></div>
+          <p class="before-after"><span class="was">Redirect-only SKILL.md + separate workflow.md file</span><span class="arrow">→</span><span class="now">single integrated SKILL.md per workflow, with a customize.toml override surface</span></p>
+        </div>
+        <div class="entry">
+          <div class="entry-head"><span class="label label-updated">UPDATED</span><span class="skill-name">bmad-cis-problem-solving</span></div>
+          <p class="before-after"><span class="was">on_complete hook wired only at the end</span><span class="arrow">→</span><span class="now">wired at both mandatory step 8 and optional step 9, so it fires either way</span></p>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="change-section" data-open="false">
+      <button class="toggle"><span>Fixes</span><span class="count">(2 changes)</span><span class="chev">▸</span></button>
+      <div class="entries"><div class="entries-inner">
+        <div class="entry">
+          <div class="entry-head"><span class="label label-updated">FIXED</span><span class="skill-name">bmad-cis-storytelling</span></div>
+          <p class="before-after"><span class="was">Literal "communication_language" text in prompts</span><span class="arrow">→</span><span class="now">templated {communication_language}, so runtime language switching actually applies</span></p>
+        </div>
+        <div class="entry">
+          <div class="entry-head"><span class="label label-updated">FIXED</span><span class="skill-name">persistent_facts (all skills)</span></div>
+          <p class="before-after"><span class="was">Unclear behavior when a referenced file/glob was missing</span><span class="arrow">→</span><span class="now">clarified to silently skip that entry rather than fabricate content</span></p>
+        </div>
+      </div></div>
+    </div>
+  </section>
+
+  <p style="margin-top:28px; font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--ink-mute);">Showing the latest release only. Older history lives in the official <a href="https://github.com/bmad-code-org/bmad-module-creative-intelligence-suite/blob/main/CHANGELOG.md" style="color:var(--accent);">GitHub CHANGELOG.md ↗</a>.</p>
+
+</div>
+
+<a class="back-btn" href="bmad-cis-v0.2.1.html">← Back to CIS</a>
+
+<script>
+  document.querySelectorAll('.change-section > .toggle').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var section = btn.parentElement;
+      var open = section.getAttribute('data-open') === 'true';
+      section.setAttribute('data-open', open ? 'false' : 'true');
+    });
+  });
+</script>
+</body>
+</html>

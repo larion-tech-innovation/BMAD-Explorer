@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>WithTea · BMAD Method Changelog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=JetBrains+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #FFFFFF;
+    --paper-deep: #F5F5F5;
+    --ink: #141414;
+    --ink-soft: #3D3A35;
+    --ink-mute: #8A8478;
+    --rule: #1A1A1A;
+    --rule-soft: rgba(20,20,20,0.15);
+    --accent: #B8471E;
+    --accent-tint: rgba(184,71,30,0.08);
+    --label-new: #2E7D32;
+    --label-new-tint: rgba(46,125,50,0.08);
+    --label-deprecated: #B8471E;
+    --label-deprecated-tint: rgba(184,71,30,0.08);
+    --label-updated: #1D5DA6;
+    --label-updated-tint: rgba(29,93,166,0.08);
+    --label-rewritten: #6A3FA0;
+    --label-rewritten-tint: rgba(106,63,160,0.08);
+    --label-breaking: #B91C1C;
+    --label-breaking-tint: rgba(185,28,28,0.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    padding: 32px 16px 100px;
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(184,71,30,0.04) 0%, transparent 50%),
+      radial-gradient(circle at 80% 90%, rgba(20,20,20,0.03) 0%, transparent 50%);
+  }
+
+  .page {
+    max-width: 900px;
+    margin: 0 auto;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    padding: 56px 56px 72px;
+    position: relative;
+    box-shadow: 0 40px 80px -40px rgba(20,20,20,0.25);
+  }
+
+  h1.doc-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 42px;
+    letter-spacing: -0.01em;
+  }
+
+  .doc-intro {
+    margin-top: 14px;
+    color: var(--ink-soft);
+    font-size: 15px;
+    max-width: 640px;
+    padding-bottom: 28px;
+    border-bottom: 2px solid var(--rule);
+  }
+
+  .version-block {
+    padding-top: 36px;
+  }
+  .version-block + .version-block {
+    margin-top: 12px;
+    border-top: 1px solid var(--rule-soft);
+  }
+
+  .version-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .version-head h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 28px;
+  }
+  .version-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-mute);
+  }
+  .version-meta {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .gh-link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-mute);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--ink-mute);
+  }
+  .gh-link:hover { color: var(--accent); border-bottom-color: var(--accent); }
+  .version-headline {
+    font-size: 15px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    margin-bottom: 22px;
+    padding-left: 16px;
+    border-left: 2px solid var(--accent);
+  }
+  .doc-intro a, .version-headline a { color: var(--accent); text-decoration: none; border-bottom: 1px dotted var(--accent); }
+  .doc-intro a:hover, .version-headline a:hover { border-bottom-style: solid; }
+
+  .stats-glance {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 8px 24px;
+    margin: 22px 0 30px;
+    padding: 14px 20px;
+    background: var(--paper-deep);
+    border: 1px solid var(--rule-soft);
+  }
+  .stats-glance-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    width: 100%;
+    margin-bottom: 4px;
+  }
+  .stat-item {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+  .stat-k {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+  .stats-glance .was { color: var(--ink-mute); text-decoration: line-through; text-decoration-color: rgba(138,132,120,0.5); text-decoration-thickness: 1px; }
+  .stats-glance .arrow { color: var(--accent); font-weight: 700; padding: 0 3px; }
+  .stats-glance .now { color: var(--ink); font-weight: 600; }
+
+  .change-section {
+    border: 1px solid var(--rule-soft);
+    margin-bottom: 10px;
+  }
+  .change-section > .toggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    background: var(--paper-deep);
+    border: none;
+    padding: 12px 18px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--ink);
+    cursor: pointer;
+    text-align: left;
+  }
+  .change-section > .toggle .count {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 400;
+    font-size: 11px;
+    color: var(--ink-mute);
+  }
+  .change-section > .toggle .chev {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-mute);
+    transition: transform 0.15s ease;
+  }
+  .change-section[data-open="true"] > .toggle .chev { transform: rotate(90deg); }
+
+  .change-section .entries {
+    display: none;
+    padding: 4px 18px 14px;
+  }
+  .change-section[data-open="true"] .entries { display: block; }
+
+  .entry {
+    padding: 12px 0;
+    border-top: 1px solid var(--rule-soft);
+  }
+  .entry:first-child { border-top: none; }
+
+  .entry-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+  }
+  .label-new { background: var(--label-new-tint); color: var(--label-new); }
+  .label-deprecated { background: var(--label-deprecated-tint); color: var(--label-deprecated); }
+  .label-updated { background: var(--label-updated-tint); color: var(--label-updated); }
+  .label-rewritten { background: var(--label-rewritten-tint); color: var(--label-rewritten); }
+  .label-removed { background: var(--label-deprecated-tint); color: var(--label-deprecated); }
+  .label-breaking { background: var(--label-breaking-tint); color: var(--label-breaking); }
+
+  .skill-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .before-after {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+  .before-after .was {
+    color: var(--ink-mute);
+    text-decoration: line-through;
+    text-decoration-color: rgba(138,132,120,0.5);
+    text-decoration-thickness: 1px;
+  }
+  .before-after .arrow {
+    color: var(--accent);
+    font-weight: 700;
+    padding: 0 5px;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .before-after .now {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .back-btn {
+    position: fixed; bottom: 28px; right: 28px; z-index: 900;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 10px 18px; background: var(--ink); color: var(--paper); border: none; cursor: pointer;
+    text-decoration: none; display: inline-block;
+    box-shadow: 0 4px 12px rgba(20,20,20,0.3);
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <h1 class="doc-title">BMAD Method Changelog</h1>
+  <p class="doc-intro">This is a condensed changelog — a fast way to see what changed in BMAD, release to release. For the full detail, or to double-check anything here, visit the official <a href="https://github.com/bmad-code-org/BMAD-METHOD/blob/main/CHANGELOG.md" target="_blank" rel="noopener">GitHub CHANGELOG.md ↗</a>.</p>
+
+  <section class="version-block">
+    <div class="version-head">
+      <h2>v6.10.0</h2>
+      <div class="version-meta">
+        <span class="version-date">Released 2026-07-03</span>
+        <a class="gh-link" href="https://github.com/bmad-code-org/BMAD-METHOD/blob/main/CHANGELOG.md#v6100---2026-07-03" target="_blank" rel="noopener">View on GitHub ↗</a>
+      </div>
+    </div>
+    <p class="version-headline">Dev Auto joins the roster as an opt-in, single-pass autonomous worker; eight shared skills get sharper prompts and quieter bugs; and bmad-investigate is retired for good.</p>
+
+    <div class="stats-glance">
+      <span class="stats-glance-label">Stats at a glance — v6.9.0 → v6.10.0</span>
+      <span class="stat-item"><span class="stat-k">Agents</span><span class="now">06</span></span>
+      <span class="stat-item"><span class="stat-k">Skills</span><span class="now">29</span></span>
+      <span class="stat-item"><span class="stat-k">Phases</span><span class="now">04</span></span>
+      <span class="stat-item"><span class="stat-k">Workflows</span><span class="was">24</span><span class="arrow">→</span><span class="now">23</span></span>
+      <span class="stat-item"><span class="stat-k">Steps</span><span class="was">158+</span><span class="arrow">→</span><span class="now">157+</span></span>
+    </div>
+
+    <div class="change-section" data-open="false">
+      <button class="toggle"><span>✨ Features</span><span class="count">(5 changes)</span><span class="chev">▸</span></button>
+      <div class="entries">
+        <div class="entry">
+          <div class="entry-head"><span class="label label-new">NEW</span><span class="skill-name">bmad-dev-auto</span></div>
+          <p class="before-after"><span class="was">Not available</span><span class="arrow">→</span><span class="now">new single-pass autonomous worker for Amelia's 4-implementation phase: clarifies intent, implements, reviews, and finalizes unattended.</span></p>
+        </div>
+        <div class="entry">
+          <div class="entry-head"><span class="label label-updated">UPDATED</span><span class="skill-name">bmad-party-mode</span></div>
+          <p class="before-after"><span class="was">No anti-consensus lineup</span><span class="arrow">→</span><span class="now">built-in club (Wildcard, Level, Killjoy, Splinter) via <code>--party=anti-concensus-club</code>, plus an opt-in <code>--non-interactive</code> flag.</span></p>
+        </div>
+        <div class="entry">
+          <div class="entry-head"><span class="label label-updated">UPDATED</span><span class="skill-name">bmad-advanced-elicitation</span></div>
+          <p class="before-after"><span class="was">No Subtraction or Map Is Not the Territory</span><span class="arrow">→</span><span class="now">both added to the method catalog.</span></p>
+        </div>
+        <div class="entry">
+          <div class="entry-head"><span class="label label-updated">UPDATED</span><span class="skill-name">bmad-review-edge-case-hunter</span></div>
+          <p class="before-after"><span class="was">Missed partial-handling gaps across fixed sets (enum, status code, flag)</span><span class="arrow">→</span><span class="now">now catches them via a named-set generalization pass.</span></p>
+        </div>
+        <div class="entry">
+          <div class="entry-head"><span class="label label-updated">UPDATED</span><span class="skill-name">bmad-tea</span></div>
+          <p class="before-after"><span class="was">9 skills, no release-gate shortcut</span><span class="arrow">→</span><span class="now">adds a GATE intent routing test-review → NFR audit → trace/gate.</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="change-section" data-open="false">
+      <button class="toggle"><span>🔧 Fixes</span><span class="count">(6 changes)</span><span class="chev">▸</span></button>
+      <div class="entries">
+        <div class="entry">
+          <div class="entry-head"><span class="label label-updated">UPDATED</span><span class="skill-name">bmad-party-mode</span></div>
+          <p class="before-after"><span class="was">Sessions closed after one request, standing agents dropped between turns</span><span class="arrow">→</span><span class="now">stays open until an explicit signal; standing agents resume instead of respawning.</span></p>
+        </div>
+        <div class="entry">
+          <div class="entry-head"><span class="label label-updated">UPDATED</span><span class="skill-name">bmad-party-mode</span></div>
+          <p class="before-after"><span class="was">Docs implied Agent Teams broadcast to every member</span><span class="arrow">→</span><span class="now">Agent Teams relay point-to-point (mailbox-style); the lead explicitly relays turns to idle members.</span></p>
+        </div>
+        <div class="entry">
+          <div class="entry-head"><span class="label label-updated">UPDATED</span><span class="skill-name">bmad-review-edge-case-hunter</span></div>
+          <p class="before-after"><span class="was">Deletion-contract audit ran as its own standalone layer</span><span class="arrow">→</span><span class="now">folded into this skill's own turn (the standalone pass had near-zero yield).</span></p>
+        </div>
+        <div class="entry">
+          <div class="entry-head"><span class="label label-updated">UPDATED</span><span class="skill-name">bmad-code-review</span></div>
+          <p class="before-after"><span class="was">Rated diff hunks in isolation, tie-breaker inflated severity</span><span class="arrow">→</span><span class="now">reads surrounding code first, tie-breaker removed, deletion check delegated to Edge Case Hunter.</span></p>
+        </div>
+        <div class="entry">
+          <div class="entry-head"><span class="label label-updated">UPDATED</span><span class="skill-name">bmad-quick-dev</span></div>
+          <p class="before-after"><span class="was">Prompt wording predated the Dev Auto hardening pass</span><span class="arrow">→</span><span class="now">backports the same clarity and robustness fixes.</span></p>
+        </div>
+        <div class="entry">
+          <div class="entry-head"><span class="label label-updated">UPDATED</span><span class="skill-name">bmad-help</span></div>
+          <p class="before-after"><span class="was">Read <code>config.yaml</code> directly; settings could silently miss</span><span class="arrow">→</span><span class="now">now reads through the shared four-layer config resolver.</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="change-section" data-open="false">
+      <button class="toggle"><span>📚 Docs</span><span class="count">(2 changes)</span><span class="chev">▸</span></button>
+      <div class="entries">
+        <div class="entry">
+          <div class="entry-head"><span class="label label-updated">UPDATED</span><span class="skill-name">bmad-forge-idea</span></div>
+          <p class="before-after"><span class="was">Original launch copy</span><span class="arrow">→</span><span class="now">reworded for clarity, no behavior change.</span></p>
+        </div>
+        <div class="entry">
+          <div class="entry-head"><span class="label label-updated">UPDATED</span><span class="skill-name">bmad-create-prd / bmad-edit-prd / bmad-validate-prd / bmad-create-architecture</span></div>
+          <p class="before-after"><span class="was">No trigger-phrase exemption for these compatibility shims</span><span class="arrow">→</span><span class="now">exempted from the trigger-phrase check, so users are steered to bmad-prd / bmad-architecture instead.</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="change-section" data-open="false">
+      <button class="toggle"><span>🗑 Removed</span><span class="count">(1 change)</span><span class="chev">▸</span></button>
+      <div class="entries">
+        <div class="entry">
+          <div class="entry-head"><span class="label label-removed">REMOVED</span><span class="skill-name">bmad-investigate</span></div>
+          <p class="before-after"><span class="was">Had its own card, detail page, and inline references</span><span class="arrow">→</span><span class="now">retired; reached the same conclusions as plain investigation, at higher cost.</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<a class="back-btn" href="bmad-bmm-v610-WITHTEA.html">← Back to BMM</a>
+
+<script>
+  document.querySelectorAll('.change-section > .toggle').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var section = btn.parentElement;
+      var open = section.getAttribute('data-open') === 'true';
+      section.setAttribute('data-open', open ? 'false' : 'true');
+    });
+  });
+</script>
+</body>
+</html>
