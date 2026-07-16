@@ -259,7 +259,7 @@ ${bmadOnly ? '' : section('cis', 'Creative Innovation Studio', '', [
 ])}
     <p class="no-results">No documents match your search.</p>
   </div>
-  <footer><b>BMAD Structure</b> &middot; ${bmadRoot.length + bmadSkills.length + cisRoot.length + cisAgents.length + cisSkills.length} documents &middot; LARION</footer>
+  <footer><b>BMAD Hub</b> &middot; LARION</footer>
   <script>
     const q = document.getElementById('q');
     const items = [...document.querySelectorAll('li a')];

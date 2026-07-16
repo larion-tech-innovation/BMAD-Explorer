@@ -1,4 +1,4 @@
-# BMAD-Structure
+# BMAD-Hub
 
 ```sh
 # generate bmad only index
