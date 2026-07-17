@@ -5,6 +5,7 @@ const root = './';
 const titleMappings = {
   'bmad-bmm-v610-WITH_WDS-TEA.html': 'BMM v6.10 with WDS & TEA',
   'bmad-cis-v0.2.1.html': 'BMAD CIS v0.2.1',
+  'skill-bmad-tmt.html': 'teach-me-testing'
 }
 
 // --bmad-only (or BMAD_ONLY=1) renders just the BMAD section, without the CIS one.
@@ -44,7 +45,7 @@ const title = (f) => {
     return titleMappings[f];
   }
   return f.replace(/\.html$/, '')
-    .replace(/^skill-bmad-/, '').replace(/^skill-bmad-cis-/, '').replace(/^spp-/, '').replace(/^spp_/, '')
+    .replace(/^skill-bmad-/, '').replace(/^skill-bmad-cis-/, '')
     .replace(/^wds-\d+-/, '').replace(/^agent-/, '').replace(/^bmad-/, '');
 };
 //   .replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
@@ -58,9 +59,8 @@ const cisRoot = bmadOnly ? [] : ls(`${root}/BMAD_CIS/bmad-cis`);
 const cisAgents = bmadOnly ? [] : ls(`${root}/BMAD_CIS/bmad-cis/cisagents`);
 const cisSkills = bmadOnly ? [] : ls(`${root}/BMAD_CIS/bmad-cis/cisskills`);
 
-const core = bmadSkills.filter(f => f.startsWith('skill-bmad-') && !f.includes('testarch') && !f.includes('tea-'));
-const tea  = bmadSkills.filter(f => f.includes('testarch') || f.includes('tea-'));
-const spp  = bmadSkills.filter(f => f.startsWith('spp'));
+const core = bmadSkills.filter(f => f.startsWith('skill-bmad-') && !f.includes('testarch') && !f.includes('tea-') && !f.includes('skill-bmad-knowledge') && f !== 'skill-bmad-tmt.html');
+const tea  = bmadSkills.filter(f => f.includes('testarch') || f.includes('tea-') || f === 'skill-bmad-tmt.html' || f.includes('skill-bmad-knowledge'));
 const wds  = bmadSkills.filter(f => f.startsWith('wds-'));
 
 const bmm = bmadRoot.filter(f => f.startsWith('bmad-bmm'));
@@ -248,7 +248,7 @@ const html = `<!DOCTYPE html>
 ${section('bmad', 'BMAD Structure', '', [
   { name: 'Docs', items: bmm.map(f => ({ href: `BMAD/${f}`, label: title(f).replace('Bmm ', 'BMM ') })) },
   { name: 'Changelogs', items: changelog.map(f => ({ href: `BMAD/${f}`, label: title(f) })) },
-  { name: 'Core Skills', items: core.map(f => ({ href: `BMAD/bmadskills/${f}`, label: title(f) })) },
+  { name: 'Skills', items: core.map(f => ({ href: `BMAD/bmadskills/${f}`, label: title(f) })) },
   { name: 'Test Architecture (TEA)', items: tea.map(f => ({ href: `BMAD/bmadskills/${f}`, label: title(f) })) },
   { name: 'Web Design System (WDS)', items: wds.map(f => ({ href: `BMAD/bmadskills/${f}`, label: title(f) })) },
 ])}
@@ -280,5 +280,5 @@ ${bmadOnly ? '' : section('cis', 'Creative Innovation Studio', '', [
 
 writeFileSync(`${root}/index.html`, html);
 console.log(`Wrote index.html${bmadOnly ? ' (BMAD only)' : ''}`);
-console.log('BMM:', bmm.length, 'Changelog:', changelog.length, 'Core:', core.length, 'TEA:', tea.length, 'SPP:', spp.length, 'WDS:', wds.length);
+console.log('BMM:', bmm.length, 'Changelog:', changelog.length, 'Core:', core.length, 'TEA:', tea.length, 'WDS:', wds.length);
 console.log('CIS root:', cisRoot.length, 'agents:', cisAgents.length, 'skills:', cisSkills.length);
