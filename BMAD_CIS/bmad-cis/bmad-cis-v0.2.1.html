@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CIS · Creative Intelligence Suite Map v0.2.1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=JetBrains+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #FFFFFF;
+    --paper-deep: #F2F7F6;
+    --ink: #14211D;
+    --ink-soft: #3D5750;
+    --ink-mute: #7C948D;
+    --rule: #14211D;
+    --rule-soft: rgba(20,33,29,0.15);
+    --accent: #0E8C7E;
+    --accent-soft: #14A18F;
+    --accent-tint: rgba(14,140,126,0.08);
+    --coral: #D9531E;
+    --coral-tint: rgba(217,83,30,0.08);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper); color: var(--ink);
+    font-family: 'IBM Plex Sans', sans-serif; font-weight: 300;
+    line-height: 1.6; -webkit-font-smoothing: antialiased;
+    padding: 32px 16px 100px;
+    background-image:
+      radial-gradient(circle at 15% 8%, rgba(14,140,126,0.05) 0%, transparent 50%),
+      radial-gradient(circle at 85% 92%, rgba(217,83,30,0.04) 0%, transparent 50%);
+  }
+  .page {
+    max-width: 1200px; margin: 0 auto; background: var(--paper);
+    border: 1px solid var(--rule); padding: 52px 56px 68px; position: relative;
+    box-shadow: 0 40px 90px -40px rgba(20,20,20,0.24);
+  }
+
+  /* MASTHEAD */
+  .masthead { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding-bottom: 28px; border-bottom: 2px solid var(--rule); flex-wrap: wrap; }
+  .masthead-left { display: flex; align-items: center; gap: 18px; }
+  .logo-mark {
+    width: 56px; height: 56px; border: 2px solid var(--ink); display: grid; place-items: center;
+    font-family: 'Fraunces', serif; font-weight: 600; font-size: 28px; font-style: italic;
+    background: var(--ink); color: var(--paper); font-variation-settings: 'SOFT' 100; flex-shrink: 0;
+  }
+  .logo-text { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-soft); line-height: 1.5; }
+  .logo-text strong { color: var(--ink); font-weight: 600; display: block; font-size: 13px; }
+
+  /* HERO */
+  .hero { padding: 44px 0 24px; border-bottom: 1px solid var(--rule); }
+  .hero h1 {
+    font-family: 'Fraunces', serif; font-weight: 300; font-size: clamp(44px, 7vw, 92px);
+    line-height: 0.94; letter-spacing: -0.02em; font-variation-settings: 'SOFT' 30, 'opsz' 144;
+  }
+  .hero h1 em { font-style: italic; color: var(--accent); font-variation-settings: 'SOFT' 100, 'opsz' 144, 'WONK' 1; }
+  .hero h1 .v { font-family: 'JetBrains Mono', monospace; font-size: 0.26em; vertical-align: super; letter-spacing: 0; color: var(--coral); font-weight: 400; margin-left: 12px; }
+  .hero p.tagline { max-width: 700px; margin-top: 18px; color: var(--ink-soft); font-size: 15.5px; }
+  .hero .hint { margin-top: 20px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); display: flex; align-items: center; gap: 8px; }
+  .hero .hint::before { content: "▸"; font-size: 12px; }
+
+  /* STATS */
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); padding: 28px 0 4px; margin-top: 6px; }
+  .stat { padding: 8px 22px; border-right: 1px solid var(--rule-soft); }
+  .stat:first-child { padding-left: 0; }
+  .stat:last-child { border-right: none; }
+  .stat .num { font-family: 'Fraunces', serif; font-size: 48px; font-weight: 300; line-height: 1; letter-spacing: -0.03em; font-variation-settings: 'SOFT' 50, 'opsz' 144; }
+  .stat .num sup { font-size: 0.38em; color: var(--coral); font-weight: 500; vertical-align: super; margin-left: 2px; }
+  .stat .label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin-top: 10px; }
+
+  .banner { margin: 26px 0 8px; padding: 15px 20px; background: var(--accent-tint); border-left: 3px solid var(--accent); font-size: 13.5px; color: var(--ink-soft); }
+  .banner strong { color: var(--ink); }
+
+  section.block { margin-top: 52px; }
+  section.block h2 {
+    font-family: 'Fraunces', serif; font-weight: 600; font-size: 30px; letter-spacing: -0.015em;
+    padding-bottom: 12px; border-bottom: 1px solid var(--rule); margin-bottom: 22px;
+    display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
+  }
+  section.block h2 .roman { font-family: 'Fraunces', serif; font-size: 22px; font-style: italic; color: var(--accent); font-variation-settings: 'SOFT' 100, 'WONK' 1; }
+  section.block p.sub { color: var(--ink-mute); font-size: 13.5px; margin-bottom: 20px; max-width: 760px; }
+
+  /* AGENT CARDS */
+  .agent-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--rule-soft); border: 1px solid var(--rule-soft); }
+  @media (max-width: 860px) { .agent-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .agent-grid { grid-template-columns: 1fr; } }
+  .agent-card { background: var(--paper); padding: 22px 20px; cursor: pointer; transition: background 0.2s ease, transform 0.2s ease; }
+  .agent-card:hover { background: var(--paper-deep); transform: translateY(-2px); }
+  .agent-card .icon { font-size: 28px; transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+  .agent-card:hover .icon { transform: scale(1.15) rotate(-4deg); }
+  .agent-card .name { font-family: 'Fraunces', serif; font-weight: 600; font-size: 19px; margin-top: 10px; letter-spacing: -0.01em; }
+  .agent-card .role { font-size: 12px; color: var(--ink-mute); margin-bottom: 9px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.02em; }
+  .agent-card .style { font-size: 12.5px; color: var(--ink-soft); font-style: italic; line-height: 1.55; }
+  .agent-card .owns { margin-top: 12px; }
+  .agent-profile-btn {
+    margin-top: 14px; font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 7px 14px; border: 1px solid var(--rule); background: none; cursor: pointer; color: var(--ink); transition: all 0.2s ease;
+  }
+  .agent-profile-btn:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .tag { display: inline-block; padding: 2px 9px; font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.06em; text-transform: uppercase; border: 1px solid var(--rule-soft); margin-right: 4px; margin-top: 4px; }
+  .tag.core { color: var(--coral); border-color: var(--coral); background: var(--coral-tint); }
+  .tag.soon { color: var(--ink-mute); border-color: var(--ink-mute); }
+
+  /* WORKFLOW CARDS */
+  .wf-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 1px; background: var(--rule-soft); border: 1px solid var(--rule-soft); }
+  .wf-card { background: var(--paper); padding: 24px 22px; transition: background 0.2s ease; }
+  .wf-card:hover { background: var(--paper-deep); }
+  .wf-card.coming-soon { opacity: 0.68; background: repeating-linear-gradient(135deg, var(--paper), var(--paper) 10px, var(--paper-deep) 10px, var(--paper-deep) 20px); }
+  .wf-card .name { font-family: 'Fraunces', serif; font-weight: 600; font-size: 20px; letter-spacing: -0.01em; }
+  .wf-card .owner { font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: var(--accent); margin: 5px 0 12px; }
+  .wf-card .desc { font-size: 13.5px; color: var(--ink-soft); margin-bottom: 14px; line-height: 1.6; }
+  .wf-detail-btn {
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 8px 15px; border: 1px solid var(--rule); background: none; cursor: pointer; color: var(--ink);
+    display: inline-flex; align-items: center; gap: 7px; transition: all 0.2s ease;
+  }
+  .wf-detail-btn::before { content: "◆"; color: var(--accent); font-size: 9px; transition: transform 0.3s ease; }
+  .wf-detail-btn:hover { background: var(--ink); color: var(--paper); }
+  .wf-detail-btn:hover::before { transform: rotate(90deg); color: var(--coral); }
+  .io-row { font-size: 11.5px; font-family: 'JetBrains Mono', monospace; margin-top: 12px; color: var(--ink-mute); }
+
+  .wf-steps-btn {
+    margin-top: 10px; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 8px 15px; border: 1px solid var(--rule-soft); background: none; cursor: pointer; color: var(--ink-soft);
+    display: inline-flex; align-items: center; gap: 7px; margin-left: 8px; transition: all 0.2s ease;
+  }
+  .wf-steps-btn .chev { width: 8px; height: 8px; transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+  .wf-steps-btn.is-open .chev { transform: rotate(90deg); }
+  .wf-steps-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .wf-steps-list {
+    display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .wf-steps-list.is-open { grid-template-rows: 1fr; }
+  .wf-steps-list > ol { overflow: hidden; padding: 0; margin: 14px 0 0; list-style: none; counter-reset: wf-step; }
+  .wf-steps-list li {
+    counter-increment: wf-step; padding: 8px 0 8px 30px; position: relative; font-size: 12px; color: var(--ink-soft);
+    border-top: 1px dotted var(--rule-soft); line-height: 1.5;
+  }
+  .wf-steps-list li:first-child { border-top: none; }
+  .wf-steps-list li::before {
+    content: counter(wf-step); position: absolute; left: 0; top: 7px;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: var(--paper);
+    background: var(--accent); width: 18px; height: 18px; display: flex; align-items: center; justify-content: center;
+  }
+  .wf-steps-list li strong { color: var(--ink); font-weight: 500; }
+  .wf-steps-list li .ckpt { color: var(--coral); font-family: 'JetBrains Mono', monospace; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.06em; margin-left: 6px; }
+
+  /* CONCEPTS */
+  .concept-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--rule-soft); border: 1px solid var(--rule-soft); }
+  @media (max-width: 860px) { .concept-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .concept-grid { grid-template-columns: 1fr; } }
+  .concept-card { background: var(--paper); padding: 18px 20px; transition: background 0.2s ease; }
+  .concept-card:hover { background: var(--paper-deep); }
+  .concept-card h3 { font-family: 'Fraunces', serif; font-weight: 600; font-size: 15.5px; margin-bottom: 8px; }
+  .concept-card p { font-size: 12.5px; color: var(--ink-soft); line-height: 1.55; }
+
+  .trigger-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 10px; }
+  .trigger-card { border: 1px solid var(--rule-soft); padding: 13px 16px; font-size: 12.5px; transition: border-color 0.2s ease; }
+  .trigger-card:hover { border-color: var(--accent); }
+  .trigger-card .tc-name { font-weight: 500; margin-bottom: 5px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.02em; }
+  .trigger-card .tc-phrase { color: var(--ink-soft); font-style: italic; }
+
+
+  footer.doc-footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--rule-soft); font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--ink-mute); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+
+  .changelog-btn {
+    position: fixed; bottom: 28px; right: 28px; z-index: 900;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 11px 20px; background: var(--ink); color: var(--paper); border: none; cursor: pointer;
+    text-decoration: none; display: inline-block; box-shadow: 0 6px 16px rgba(20,20,20,0.3); transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .changelog-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(20,20,20,0.35); }
+
+  @media (max-width: 900px) { .stats { grid-template-columns: repeat(2, 1fr); gap: 16px; } .stat { border-right: none; } }
+  @media (max-width: 640px) { .page { padding: 32px 20px 48px; } }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead">
+    <div class="masthead-left">
+      <div class="logo-mark">C</div>
+      <div class="logo-text">BMAD<strong>Creative Intelligence Suite</strong></div>
+    </div>
+  </div>
+
+  <div class="hero">
+    <h1>CIS<em>-Creative</em><span class="v">v0.2.1</span></h1>
+    <p class="tagline">Structured creativity for ideation, design, strategy, problem-solving, and narrative — six persona-driven agents, no fixed phase pipeline. Diverge before you converge. Not a default BMAD install; installed explicitly.</p>
+    <div class="hint">Use any agent, any order, any time</div>
+    <div class="stats">
+      <div class="stat"><div class="num">06</div><div class="label">Agents</div></div>
+      <div class="stat"><div class="num">04</div><div class="label">Workflow Skills</div></div>
+      <div class="stat"><div class="num">01</div><div class="label">Cross-Listed</div></div>
+      <div class="stat"><div class="num">35</div><div class="label">Steps (workflow skills)</div></div>
+    </div>
+    <div class="banner">
+      <strong>No fixed order, ever.</strong> Every CIS skill can be used any time, in any sequence, and as many times as you like — nothing is mandatory, and nothing has to wait for something else to finish first. That's the opposite of BMM, where work moves through a strict 1→2→3→4 pipeline.
+    </div>
+  </div>
+
+  <section class="block">
+    <h2><span class="roman">I ·</span> Agent Roster</h2>
+    <p class="sub">Six persona-driven agents. Click "full profile" to open the complete activation profile in a new tab — persona, step-by-step activation flow, and owned skill. All six share an identical activation sequence.</p>
+    <div class="agent-grid">
+
+      <div class="agent-card" data-href="cisagents/agent-carson.html">
+        <div class="icon">🧠</div>
+        <div class="name">Carson</div>
+        <div class="role">Brainstorming Coach</div>
+        <div class="style">"Enthusiastic improv coach — 'Yes, and!' energy." Celebrates unconventional thinking.</div>
+        <div class="owns"><span class="tag core">bmad-brainstorming · core module</span></div>
+        <button class="agent-profile-btn" type="button" data-href="cisagents/agent-carson.html">full profile ↗</button>
+      </div>
+
+      <div class="agent-card" data-href="cisagents/agent-maya.html">
+        <div class="icon">🎨</div>
+        <div class="name">Maya</div>
+        <div class="role">Design Thinking Maestro</div>
+        <div class="style">"Jazz musician — improvises, sensory metaphors." Keeps users at the center of every decision.</div>
+        <div class="owns"><span class="tag">bmad-cis-design-thinking</span></div>
+        <button class="agent-profile-btn" type="button" data-href="cisagents/agent-maya.html">full profile ↗</button>
+      </div>
+
+      <div class="agent-card" data-href="cisagents/agent-victor.html">
+        <div class="icon">⚡</div>
+        <div class="name">Victor</div>
+        <div class="role">Disruptive Innovation Oracle</div>
+        <div class="style">"Chess grandmaster — bold declarations, strategic questions." Demands brutal truth about market realities.</div>
+        <div class="owns"><span class="tag">bmad-cis-innovation-strategy</span></div>
+        <button class="agent-profile-btn" type="button" data-href="cisagents/agent-victor.html">full profile ↗</button>
+      </div>
+
+      <div class="agent-card" data-href="cisagents/agent-quinn.html">
+        <div class="icon">🔬</div>
+        <div class="name">Dr. Quinn</div>
+        <div class="role">Master Problem Solver</div>
+        <div class="style">"Sherlock Holmes meets scientist — deductive, curious." Guides diagnosis before jumping to solutions.</div>
+        <div class="owns"><span class="tag">bmad-cis-problem-solving</span></div>
+        <button class="agent-profile-btn" type="button" data-href="cisagents/agent-quinn.html">full profile ↗</button>
+      </div>
+
+      <div class="agent-card" data-href="cisagents/agent-sophia.html">
+        <div class="icon">📖</div>
+        <div class="name">Sophia</div>
+        <div class="role">Master Storyteller</div>
+        <div class="style">"Master bard — flowery, enrapturing narrative." Draws stories out through questions, not for you.</div>
+        <div class="owns"><span class="tag">bmad-cis-storytelling</span></div>
+        <button class="agent-profile-btn" type="button" data-href="cisagents/agent-sophia.html">full profile ↗</button>
+      </div>
+
+      <div class="agent-card" data-href="cisagents/agent-caravaggio.html">
+        <div class="icon">🎬</div>
+        <div class="name">Caravaggio</div>
+        <div class="role">Visual Communication Expert</div>
+        <div class="style">"Creative director — energetic, sarcastic wit." Visual hierarchy and information design expertise.</div>
+        <div class="owns"><span class="tag soon">7 prompt actions · no registered workflow skill</span></div>
+        <button class="agent-profile-btn" type="button" data-href="cisagents/agent-caravaggio.html">full profile ↗</button>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="block">
+    <h2><span class="roman">II ·</span> Workflow Skills</h2>
+    <p class="sub">The four real step-by-step processes, plus the cross-listed core skill. Click "what · why · how" to open the full guide in a new tab. Every workflow skill checkpoints after each saved section: <code>[a] Advanced Elicitation</code> · <code>[c] Continue</code> · <code>[p] Party-Mode</code> · <code>[y] YOLO</code>.</p>
+    <div class="wf-grid">
+
+      <div class="wf-card">
+        <div class="name">Innovation Strategy</div>
+        <div class="owner">Victor · bmad-cis-innovation-strategy</div>
+        <div class="desc">Identify disruption opportunities and architect business model innovation through rigorous market analysis, option development, and execution planning. Never gives time estimates.</div>
+        <button class="wf-detail-btn" type="button" data-href="cisskills/skill-bmad-cis-innovation-strategy.html">what · why · how</button>
+        <button class="wf-steps-btn" type="button" data-toggle="steps-is">9 steps <svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M2 4l3 3 3-3" stroke="currentColor" stroke-width="1.5"/></svg></button>
+        <div class="wf-steps-list" id="steps-is"><ol>
+          <li><strong>Establish strategic context</strong> — company background, drivers, model, constraints, success definition</li>
+          <li><strong>Analyze market landscape &amp; competitive dynamics</strong> — TAM/SAM/SOM, Five Forces, positioning</li>
+          <li><strong>Analyze current business model</strong> — Business Model Canvas, Value Proposition Canvas<span class="ckpt">⚡ checkpoint</span></li>
+          <li><strong>Identify disruption opportunities</strong> — Disruptive Innovation Theory, Jobs to be Done, Blue Ocean</li>
+          <li><strong>Generate innovation opportunities</strong> — 5-10 options via Three Horizons + 2-4 frameworks<span class="ckpt">⚡ checkpoint</span></li>
+          <li><strong>Develop &amp; evaluate strategic options</strong> — 3 distinct options, fully analyzed</li>
+          <li><strong>Recommend strategic direction</strong> — bold recommendation, rationale, hypotheses</li>
+          <li><strong>Build execution roadmap</strong> — Immediate Impact / Foundation / Scale phases<span class="ckpt">⚡ checkpoint</span></li>
+          <li><strong>Define metrics &amp; risk mitigation</strong> — leading/lagging indicators, decision gates</li>
+        </ol></div>
+        <div class="io-row">OUT: {output_folder}/innovation-strategy-{date}.md</div>
+      </div>
+
+      <div class="wf-card">
+        <div class="name">Problem Solving</div>
+        <div class="owner">Dr. Quinn · bmad-cis-problem-solving</div>
+        <div class="desc">Diagnose complex problems systematically, identify root causes, generate solutions, and produce an actionable implementation and validation plan.</div>
+        <button class="wf-detail-btn" type="button" data-href="cisskills/skill-bmad-cis-problem-solving.html">what · why · how</button>
+        <button class="wf-steps-btn" type="button" data-toggle="steps-ps">9 steps (1 optional) <svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M2 4l3 3 3-3" stroke="currentColor" stroke-width="1.5"/></svg></button>
+        <div class="wf-steps-list" id="steps-ps"><ol>
+          <li><strong>Define &amp; refine the problem</strong> — what's wrong, who's affected, impact, success criteria</li>
+          <li><strong>Diagnose &amp; bound the problem</strong> — Is/Is Not Analysis</li>
+          <li><strong>Conduct root cause analysis</strong> — Five Whys, Fishbone, Systems Thinking</li>
+          <li><strong>Analyze forces &amp; constraints</strong> — Force Field Analysis</li>
+          <li><strong>Generate solution options</strong> — 10-15+ ideas via TRIZ, Lateral Thinking, more<span class="ckpt">⚡ checkpoint</span></li>
+          <li><strong>Evaluate &amp; select solution</strong> — Decision Matrix or Cost-Benefit Analysis</li>
+          <li><strong>Plan implementation</strong> — pilot / phased / big bang, PDCA Cycle</li>
+          <li><strong>Establish monitoring &amp; validation</strong> — success metrics, risk mitigation<span class="ckpt">⚡ checkpoint</span></li>
+          <li><strong>Capture lessons learned</strong> <em>(optional)</em> — what worked, patterns</li>
+        </ol></div>
+        <div class="io-row">OUT: {output_folder}/problem-solution-{date}.md</div>
+      </div>
+
+      <div class="wf-card">
+        <div class="name">Design Thinking</div>
+        <div class="owner">Maya · bmad-cis-design-thinking</div>
+        <div class="desc">Guide human-centered design through empathy, definition, ideation, prototyping, and testing. Keeps users at the center of every decision.</div>
+        <button class="wf-detail-btn" type="button" data-href="cisskills/skill-bmad-cis-design-thinking.html">what · why · how</button>
+        <button class="wf-steps-btn" type="button" data-toggle="steps-dt">7 steps <svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M2 4l3 3 3-3" stroke="currentColor" stroke-width="1.5"/></svg></button>
+        <div class="wf-steps-list" id="steps-dt"><ol>
+          <li><strong>Gather context &amp; define design challenge</strong></li>
+          <li><strong>EMPATHIZE</strong> — 3-5 user research methods, empathy map</li>
+          <li><strong>DEFINE</strong> — POV statements, "How Might We" questions<span class="ckpt">⚡ checkpoint</span></li>
+          <li><strong>IDEATE</strong> — 15-30 ideas, defer judgment, cluster</li>
+          <li><strong>PROTOTYPE</strong> — low-fidelity, minimum testable features<span class="ckpt">⚡ checkpoint</span></li>
+          <li><strong>TEST</strong> — validate with 5-7 real users</li>
+          <li><strong>Plan next iteration</strong> — refinements, action items<span class="ckpt">⚡ checkpoint</span></li>
+        </ol></div>
+        <div class="io-row">OUT: {output_folder}/design-thinking-{date}.md</div>
+      </div>
+
+      <div class="wf-card">
+        <div class="name">Storytelling</div>
+        <div class="owner">Sophia · bmad-cis-storytelling</div>
+        <div class="desc">Craft compelling narratives through structured story development, emotional arc design, and channel-specific adaptations. Guides through questions, never writes for you unasked.</div>
+        <button class="wf-detail-btn" type="button" data-href="cisskills/skill-bmad-cis-storytelling.html">what · why · how</button>
+        <button class="wf-steps-btn" type="button" data-toggle="steps-st">10 steps <svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M2 4l3 3 3-3" stroke="currentColor" stroke-width="1.5"/></svg></button>
+        <div class="wf-steps-list" id="steps-st"><ol>
+          <li><strong>Story context setup</strong> — purpose, audience, key messages</li>
+          <li><strong>Select story framework</strong> — Hero's Journey, Pixar Story Spine, and more</li>
+          <li><strong>Gather story elements</strong> — Socratic questioning</li>
+          <li><strong>Craft emotional arc</strong> — struggles, turning points, payoffs</li>
+          <li><strong>Develop opening hook</strong></li>
+          <li><strong>Write core narrative</strong> — user-drafted, AI-drafted, or collaborative</li>
+          <li><strong>Create story variations</strong> — short / medium / extended</li>
+          <li><strong>Usage guidelines</strong> — deployment guidance by channel</li>
+          <li><strong>Refinement &amp; next steps</strong></li>
+          <li><strong>Generate final output</strong></li>
+        </ol></div>
+        <div class="io-row">OUT: {output_folder}/story-{date}.md</div>
+      </div>
+
+      <div class="wf-card coming-soon">
+        <div class="name">Presentation Actions <span class="tag soon">no registered skill</span></div>
+        <div class="owner">Caravaggio · 7 prompt-driven menu actions</div>
+        <div class="desc">Caravaggio has no registered multi-step workflow skill (no canonicalId, no step-by-step SKILL.md — not counted in the Workflow Skills stat), but he's not idle: his own <code>customize.toml</code> defines 7 real actions, each run directly from a prompt rather than a delegated skill — <strong>SD</strong> multi-slide deck, <strong>EX</strong> video explainer, <strong>PD</strong> investor pitch, <strong>CT</strong> conference talk, <strong>IN</strong> info visualization, <strong>VM</strong> conceptual illustration, <strong>CV</strong> single concept visual.</div>
+        <button class="agent-profile-btn" type="button" data-href="cisagents/agent-caravaggio.html">see all 7 actions ↗</button>
+      </div>
+
+      <div class="wf-card">
+        <div class="name">Brainstorming <span class="tag core">core module</span></div>
+        <div class="owner">Carson · bmad-brainstorming</div>
+        <div class="desc">Facilitate a brainstorming session — 36 techniques across 7 categories. Three selectable stances: Facilitator, Creative Partner, Ideate for me.</div>
+        <button class="wf-detail-btn" type="button" data-href="cisskills/skill-bmad-brainstorming.html">what · why · how</button>
+        <div class="io-row">No fixed step count — intent/mode-routed, not a linear sequence · OUT: {output_folder}/brainstorming/</div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="block">
+    <h2><span class="roman">III ·</span> CIS-Specific Concepts</h2>
+    <div class="concept-grid">
+      <div class="concept-card"><h3>Diverge-Before-Converge</h3><p>Every workflow explicitly expands possibilities before narrowing — the defining structural principle of CIS, contrasting with BMM's linear convergence.</p></div>
+      <div class="concept-card"><h3>Energy Checkpoints</h3><p>Real in-workflow check-ins (e.g. Victor: "How's your energy? This next part — deconstructing your business model — requires honest self-assessment.") at Innovation Strategy steps 3/5/8, Problem Solving steps 5/8, and Design Thinking steps 3/5/7.</p></div>
+      <div class="concept-card"><h3>Template-Output Checkpoint</h3><p>After every saved section: <code>[a] Advanced Elicitation</code>, <code>[c] Continue</code>, <code>[p] Party-Mode</code>, <code>[y] YOLO</code> — verbatim from every workflow's Behavioral Constraints.</p></div>
+      <div class="concept-card"><h3>Layered Customization</h3><p><code>customize.toml</code> base → team (<code>_bmad/custom/{skill}.toml</code>) → personal (<code>{skill}.user.toml</code>), merged via <code>resolve_customization.py</code>. Introduced v0.2.0.</p></div>
+      <div class="concept-card"><h3>visual_tools Config</h3><p>Unique CIS config key (<code>_bmad/cis/config.yaml</code>) — Mermaid, Excalidraw, Gemini Nano, or Other/Manual. Not present in BMM.</p></div>
+      <div class="concept-card"><h3>Not Installed by Default</h3><p>CIS requires an explicit module install — it is not part of a standard new BMAD installation.</p></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2><span class="roman">IV ·</span> Quick-Start Triggers</h2>
+    <p class="sub">Real activation trigger phrases from module-help.csv — say any of these, or address the agent by name.</p>
+    <div class="trigger-grid">
+      <div class="trigger-card"><div class="tc-name">Innovation Strategy (Victor)</div><div class="tc-phrase">"lets create an innovation strategy" · "I want to find disruption opportunities"</div></div>
+      <div class="trigger-card"><div class="tc-name">Problem Solving (Dr. Quinn)</div><div class="tc-phrase">"guide me through structured problem solving"</div></div>
+      <div class="trigger-card"><div class="tc-name">Design Thinking (Maya)</div><div class="tc-phrase">"lets run design thinking" · "I want to apply design thinking"</div></div>
+      <div class="trigger-card"><div class="tc-name">Brainstorming (Carson)</div><div class="tc-phrase">"help me brainstorm" · "help me ideate"</div></div>
+      <div class="trigger-card"><div class="tc-name">Storytelling (Sophia)</div><div class="tc-phrase">"help me with storytelling"</div></div>
+      <div class="trigger-card"><div class="tc-name">Any agent</div><div class="tc-phrase">Use the agent's name, e.g. "talk to Victor"</div></div>
+    </div>
+  </section>
+
+  <footer class="doc-footer">
+    <span>v0.2.1 · npm bmad-creative-intelligence-suite</span>
+    <span>Source: github.com/bmad-code-org/bmad-module-creative-intelligence-suite</span>
+  </footer>
+
+</div>
+
+<a class="changelog-btn" href="bmad-changelog-cis-v0.2.1.html">Changelog</a>
+
+<script>
+  // Agent cards — open the full profile page in a new tab (richer, more readable than a cramped popup)
+  document.querySelectorAll('.agent-card').forEach(function (card) {
+    card.addEventListener('click', function () {
+      if (card.dataset.href) window.open(card.dataset.href, '_blank');
+    });
+  });
+  document.querySelectorAll('.agent-profile-btn').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      if (btn.dataset.href) window.open(btn.dataset.href, '_blank');
+    });
+  });
+
+  // Workflow "what · why · how" buttons — open cisskills/ detail page in a new tab
+  document.querySelectorAll('.wf-detail-btn').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      if (btn.dataset.href) window.open(btn.dataset.href, '_blank');
+    });
+  });
+
+  // Inline step-flow toggle per workflow card
+  document.querySelectorAll('.wf-steps-btn').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var list = document.getElementById(btn.dataset.toggle);
+      if (!list) return;
+      var open = list.classList.toggle('is-open');
+      btn.classList.toggle('is-open', open);
+    });
+  });
+</script>
+
+</body>
+</html>

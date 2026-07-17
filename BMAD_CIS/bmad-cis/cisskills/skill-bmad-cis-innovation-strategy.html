@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Innovation Strategy — Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=JetBrains+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #14211D; --ink-soft: #3D5750; --ink-mute: #7C948D;
+    --paper: #FCFEFD; --paper-warm: #EDF5F3; --rule: #14211D;
+    --accent: #0E8C7E; --highlight: #D9531E;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; scroll-behavior: smooth; }
+  body { background: var(--paper); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; font-weight: 300; line-height: 1.68; font-size: 0.9375rem; -webkit-font-smoothing: antialiased; animation: pageFadeIn 0.4s ease; }
+  @keyframes pageFadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .layout { display: grid; grid-template-columns: 280px minmax(0, 1fr); grid-template-rows: auto 1fr; grid-template-areas: "masthead masthead" "toc article"; max-width: 1300px; margin: 0 auto; min-height: 100vh; }
+  header.masthead { grid-area: masthead; border-bottom: 2px solid var(--rule); padding: 28px 44px 24px; background: var(--paper-warm); }
+  .masthead-top { display: flex; justify-content: space-between; align-items: center; font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.16em; color: var(--ink-mute); margin-bottom: 14px; flex-wrap: wrap; gap: 6px; }
+  .masthead-top .left { display: flex; gap: 18px; flex-wrap: wrap; }
+  h1.title { font-family: 'Fraunces', serif; font-weight: 600; font-size: clamp(1.9rem, 4vw, 2.8rem); letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 10px; }
+  h1.title em { font-style: italic; font-weight: 300; color: var(--ink-soft); }
+  p.subtitle { font-size: 0.97rem; color: var(--ink-soft); max-width: 700px; margin-bottom: 18px; }
+  dl.meta-grid { display: flex; flex-wrap: wrap; gap: 0; border: 1px solid var(--rule); border-right: none; }
+  dl.meta-grid > div { border-right: 1px solid var(--rule); padding: 9px 16px; min-width: 120px; }
+  dl.meta-grid dt { font-family: 'JetBrains Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-mute); margin-bottom: 3px; }
+  dl.meta-grid dd { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; }
+  aside.toc { grid-area: toc; border-right: 1px solid var(--rule); padding: 30px 0; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+  .toc-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.22em; color: var(--ink-mute); padding: 14px 24px 6px; border-bottom: 1px solid rgba(20,33,29,.12); margin-bottom: 6px; }
+  .toc-label:first-child { padding-top: 0; }
+  aside.toc nav a { display: block; padding: 6px 24px; font-size: 12.5px; color: var(--ink-soft); text-decoration: none; transition: color 0.2s ease, padding-left 0.2s ease; }
+  aside.toc nav a:hover { color: var(--accent); padding-left: 28px; }
+  main.article { grid-area: article; padding: 48px 56px 80px; }
+  h2.sec-heading { font-family: 'Fraunces', serif; font-weight: 600; font-size: clamp(1.4rem, 2.5vw, 2rem); letter-spacing: -0.02em; margin-bottom: 20px; display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+  h2.sec-heading .marker { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.16em; color: var(--paper); background: var(--ink); padding: 3px 10px; }
+  h2.sec-heading .marker.why { background: var(--accent); }
+  h2.sec-heading .marker.how { background: var(--highlight); }
+  h3.sub-heading { font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.3rem; margin: 40px 0 16px; letter-spacing: -0.01em; }
+  p { margin-bottom: 14px; }
+  p.lede { font-size: 1.02rem; color: var(--ink-soft); font-style: italic; margin-bottom: 20px; }
+  code { font-family: 'JetBrains Mono', monospace; font-size: 0.83em; background: var(--paper-warm); border: 1px solid rgba(20,33,29,.2); padding: 1px 5px; color: var(--ink-soft); }
+  strong { font-weight: 600; }
+  blockquote.quote { border-left: 3px solid var(--accent); padding: 4px 0 4px 18px; margin: 16px 0 22px; font-style: italic; color: var(--ink-soft); font-size: 0.95rem; }
+  dl.persona-block { border: 1px solid var(--rule); background: var(--paper); margin: 0 0 28px; display: grid; grid-template-columns: 140px 1fr; }
+  dl.persona-block dt { font-family: 'JetBrains Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-mute); padding: 10px 14px; border-bottom: 1px dotted rgba(20,33,29,.18); border-right: 1px solid rgba(20,33,29,.18); background: var(--paper-warm); }
+  dl.persona-block dd { font-size: 0.88rem; padding: 10px 14px; border-bottom: 1px dotted rgba(20,33,29,.18); color: var(--ink-soft); }
+  dl.persona-block dt:last-of-type, dl.persona-block dd:last-child { border-bottom: none; }
+  .flow-steps { margin: 20px 0 32px; }
+  .flow-step { display: grid; grid-template-columns: 48px 1fr; border: 1px solid var(--rule); border-bottom: none; transition: background 0.2s ease; }
+  .flow-step:hover { background: var(--paper-warm); }
+  .flow-step:last-child { border-bottom: 1px solid var(--rule); }
+  .flow-step-num { background: var(--ink); color: var(--paper); font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+  .flow-step-body { padding: 14px 18px; border-left: 1px solid var(--rule); }
+  .flow-step-title { font-family: 'Fraunces', serif; font-size: 1.05rem; font-weight: 600; margin-bottom: 5px; }
+  .flow-step-desc { font-size: 12.5px; color: var(--ink-soft); }
+  .flow-step-tag { font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--highlight); margin-left: 8px; }
+  ul.checklist { list-style: none; margin: 0 0 22px; }
+  ul.checklist li { padding: 7px 0 7px 22px; position: relative; font-size: 0.88rem; color: var(--ink-soft); border-bottom: 1px dotted rgba(20,33,29,.12); }
+  ul.checklist li:last-child { border-bottom: none; }
+  ul.checklist li::before { content: '□'; position: absolute; left: 0; font-family: 'JetBrains Mono', monospace; color: var(--ink-mute); }
+  .toolkit-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1px; border: 1px solid var(--rule); background: var(--paper); margin: 18px 0 32px; }
+  .toolkit-card { background: var(--paper); padding: 15px 17px; box-shadow: 0 0 0 1px var(--rule); transition: background 0.2s ease; }
+  .toolkit-card:hover { background: var(--paper-warm); }
+  .toolkit-card .t-name { font-family: 'Fraunces', serif; font-weight: 600; font-size: 0.95rem; margin-bottom: 6px; }
+  .toolkit-card .t-desc { font-size: 12px; color: var(--ink-soft); }
+  hr.divider { border: none; border-top: 1px solid var(--rule); margin: 52px 0; position: relative; }
+  hr.divider::after { content: '◆'; position: absolute; top: -6px; left: 0; background: var(--paper); padding-right: 12px; font-size: 8px; color: var(--ink-mute); }
+  @media (max-width: 900px) { .layout { grid-template-columns: 1fr; grid-template-areas: "masthead" "article"; } aside.toc { display: none; } main.article { padding: 32px 24px 60px; } }
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <header class="masthead">
+    <div class="masthead-top">
+      <div class="left">
+        <span>BMAD CIS · Creative Intelligence Suite</span>
+        <span>Skill · bmad-cis-innovation-strategy</span>
+        <span>Agent · Victor (Disruptive Innovation Oracle)</span>
+      </div>
+    </div>
+    <h1 class="title">Innovation Strategy <em>· Disruption &amp; Business Model Architecture</em></h1>
+    <p class="subtitle">A 9-step, brutally honest strategy workflow: frame the business today, hunt for disruption vectors, generate 5-10 innovation options, and land on one bold recommendation with an execution roadmap and risk plan. Never gives time estimates.</p>
+    <dl class="meta-grid">
+      <div><dt>Skill code</dt><dd>bmad-cis-innovation-strategy</dd></div>
+      <div><dt>Menu code</dt><dd>IS</dd></div>
+      <div><dt>Agent</dt><dd>Victor</dd></div>
+      <div><dt>Output</dt><dd>innovation-strategy-{date}.md</dd></div>
+      <div><dt>Steps</dt><dd>9 (all mandatory)</dd></div>
+      <div><dt>Phase</dt><dd>anytime</dd></div>
+    </dl>
+  </header>
+
+  <aside class="toc">
+    <nav>
+      <div class="toc-label">§ WHAT</div>
+      <a href="#what-overview">Skill Overview</a>
+      <a href="#step-flow">9-Step Flow</a>
+      <div class="toc-label">§ WHY</div>
+      <a href="#why-brutal-truth">Why Brutal Truth Over Comfort</a>
+      <a href="#why-checkpoints">Why Energy Checkpoints</a>
+      <div class="toc-label">§ HOW</div>
+      <a href="#before-calling">Before Calling This Skill</a>
+      <a href="#toolkit">Applied Toolkit</a>
+      <a href="#guardrails">Behavioral Constraints</a>
+    </nav>
+  </aside>
+
+  <main class="article">
+
+    <section id="what-overview">
+      <h2 class="sec-heading"><span class="marker">§ WHAT</span>Innovation Strategy — <em>What does this skill do?</em></h2>
+      <dl class="persona-block">
+        <dt>Skill code</dt><dd><code>bmad-cis-innovation-strategy</code></dd>
+        <dt>Agent</dt><dd>Victor — Disruptive Innovation Oracle. "Chess grandmaster" style: bold declarations, strategic questions, devastating simplicity in problem framing.</dd>
+        <dt>Trigger</dt><dd><em>"lets create an innovation strategy"</em> · <em>"I want to find disruption opportunities"</em></dd>
+        <dt>Input</dt><dd>Company background, strategic drivers, current business model, constraints, and how success will be defined — gathered from the user at Step 1. Optional context via the <code>--data</code> flag.</dd>
+        <dt>Output</dt><dd><code>{output_folder}/innovation-strategy-{date}.md</code>, saved incrementally after each <code>&lt;template-output&gt;</code> block.</dd>
+      </dl>
+      <blockquote class="quote">"You are a strategic innovation advisor. Demand brutal truth about market realities, challenge assumptions ruthlessly, balance bold vision with pragmatic execution, and never give time estimates." — Victor's Role, verbatim from SKILL.md</blockquote>
+      <p>Victor identifies disruption opportunities and architects business model innovation through rigorous market analysis, option development, and execution planning. The workflow moves in one direction only — outward first, then narrow: understand the market and the current model in brutal detail, hunt disruption vectors across four established frameworks, generate a wide set of innovation options, then converge on one bold recommendation backed by a phased execution roadmap and a real risk-mitigation plan.</p>
+
+      <h3 class="sub-heading" id="step-flow">9-Step Flow</h3>
+      <div class="flow-steps">
+        <div class="flow-step"><div class="flow-step-num">1</div><div class="flow-step-body"><div class="flow-step-title">Establish strategic context</div><div class="flow-step-desc">Gather company background, strategic drivers, current business model, constraints, and success definition. Synthesize into a clear strategic framing.</div></div></div>
+        <div class="flow-step"><div class="flow-step-num">2</div><div class="flow-step-body"><div class="flow-step-title">Analyze market landscape and competitive dynamics</div><div class="flow-step-desc">Market analysis using 2-4 frameworks: TAM/SAM/SOM, Five Forces, competitive positioning, market timing assessment.</div></div></div>
+        <div class="flow-step"><div class="flow-step-num">3</div><div class="flow-step-body"><div class="flow-step-title">Analyze current business model<span class="flow-step-tag">⚡ checkpoint</span></div><div class="flow-step-desc">Deconstruct the existing model via Business Model Canvas and Value Proposition Canvas, plus revenue/cost structure analysis. Identify vulnerabilities and competitive advantages.</div></div></div>
+        <div class="flow-step"><div class="flow-step-num">4</div><div class="flow-step-body"><div class="flow-step-title">Identify disruption opportunities</div><div class="flow-step-desc">Hunt for disruption vectors using 2-3 frameworks: Disruptive Innovation Theory, Jobs to be Done, Blue Ocean Strategy, Platform Revolution — focused on non-consumers, underserved jobs, technology enablers.</div></div></div>
+        <div class="flow-step"><div class="flow-step-num">5</div><div class="flow-step-body"><div class="flow-step-title">Generate innovation opportunities<span class="flow-step-tag">⚡ checkpoint</span></div><div class="flow-step-desc">Develop 5-10 concrete innovation options across business model, value chain, partnerships, and technology dimensions using Three Horizons plus 2-4 additional frameworks.</div></div></div>
+        <div class="flow-step"><div class="flow-step-num">6</div><div class="flow-step-body"><div class="flow-step-title">Develop and evaluate strategic options</div><div class="flow-step-desc">Synthesize insights into 3 distinct strategic options with detailed analysis: description, implications, resource requirements, risks, expected outcomes.</div></div></div>
+        <div class="flow-step"><div class="flow-step-num">7</div><div class="flow-step-body"><div class="flow-step-title">Recommend strategic direction</div><div class="flow-step-desc">Make a bold strategic recommendation with rationale, critical hypotheses, and success factors.</div></div></div>
+        <div class="flow-step"><div class="flow-step-num">8</div><div class="flow-step-body"><div class="flow-step-title">Build execution roadmap<span class="flow-step-tag">⚡ checkpoint</span></div><div class="flow-step-desc">Phased roadmap across three phases — Immediate Impact, Foundation Building, Scale &amp; Optimization — with initiatives, resources, metrics, decision gates.</div></div></div>
+        <div class="flow-step"><div class="flow-step-num">9</div><div class="flow-step-body"><div class="flow-step-title">Define metrics and risk mitigation</div><div class="flow-step-desc">Establish a measurement framework — leading/lagging indicators, decision gates, comprehensive risk mitigation strategies.</div></div></div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <section id="why-brutal-truth">
+      <h2 class="sec-heading"><span class="marker why">§ WHY</span>Design Rationale</h2>
+      <h3 class="sub-heading">Why brutal truth over comfort</h3>
+      <p class="lede">Victor's Facilitation Principles, verbatim: "demand brutal truth about market realities before innovation exploration" and "challenge assumptions ruthlessly; comfortable illusions kill strategies."</p>
+      <p>Innovation strategy fails most often not from a lack of ideas but from decision-makers protecting a comfortable read of their current market position. Steps 2-3 force a rigorous, framework-driven audit of the market and the existing business model <em>before</em> any disruption-hunting begins, so the options generated in Steps 4-6 are grounded in what's actually true, not what's comfortable to believe.</p>
+      <h3 class="sub-heading" id="why-checkpoints">Why energy checkpoints at steps 3, 5, 8</h3>
+      <p>This workflow is analytically dense — three separate framework-driven deep dives (current-model teardown, disruption-vector hunting, roadmap-building) each ask for sustained strategic thinking. Rather than pushing straight through nine analytically heavy steps, the SKILL.md pauses for a real check-in, verbatim:</p>
+      <blockquote class="quote">"We've covered market landscape. How's your energy? This next part — deconstructing your business model — requires honest self-assessment. Ready?" (after Step 2, before Step 3)</blockquote>
+      <blockquote class="quote">"We've got the strategy direction. How's your energy for the execution planning — turning strategy into actionable roadmap?" (after Step 7, before Step 8)</blockquote>
+    </section>
+
+    <hr class="divider">
+
+    <section id="before-calling">
+      <h2 class="sec-heading"><span class="marker how">§ HOW</span>Using This Skill</h2>
+      <h3 class="sub-heading">Before calling this skill</h3>
+      <ul class="checklist">
+        <li>Have your company background, strategic drivers, and current business model ready — Step 1 asks for these directly.</li>
+        <li>Know your constraints (budget, timeline pressure — though the skill itself won't estimate time for you, it will ask what constraints exist).</li>
+        <li>Optional: supply context documents via the <code>--data</code> flag for Victor to read before Step 1.</li>
+      </ul>
+
+      <h3 class="sub-heading" id="toolkit">Applied Toolkit</h3>
+      <div class="toolkit-grid">
+        <div class="toolkit-card"><div class="t-name">TAM/SAM/SOM</div><div class="t-desc">Market sizing — total, serviceable, obtainable.</div></div>
+        <div class="toolkit-card"><div class="t-name">Five Forces</div><div class="t-desc">Competitive dynamics analysis.</div></div>
+        <div class="toolkit-card"><div class="t-name">Business Model Canvas</div><div class="t-desc">Deconstruct the current model.</div></div>
+        <div class="toolkit-card"><div class="t-name">Value Proposition Canvas</div><div class="t-desc">Map value delivered vs. customer jobs.</div></div>
+        <div class="toolkit-card"><div class="t-name">Disruptive Innovation Theory</div><div class="t-desc">Classic Christensen disruption lens.</div></div>
+        <div class="toolkit-card"><div class="t-name">Jobs to be Done</div><div class="t-desc">Underserved-job identification.</div></div>
+        <div class="toolkit-card"><div class="t-name">Blue Ocean Strategy</div><div class="t-desc">Uncontested market space framing.</div></div>
+        <div class="toolkit-card"><div class="t-name">Platform Revolution</div><div class="t-desc">Platform-based business model patterns.</div></div>
+        <div class="toolkit-card"><div class="t-name">Three Horizons</div><div class="t-desc">Roadmap structuring across near/mid/long term.</div></div>
+      </div>
+
+      <h3 class="sub-heading" id="guardrails">Behavioral Constraints &amp; Facilitation Principles</h3>
+      <p style="font-size:12px;color:var(--ink-mute);margin-bottom:10px;">Verbatim from SKILL.md — not paraphrased.</p>
+      <ul class="checklist">
+        <li>Do not give time estimates.</li>
+        <li>After every <code>&lt;template-output&gt;</code>, immediately save the current artifact, show a checkpoint separator, and present <code>[a] Advanced Elicitation</code> · <code>[c] Continue</code> · <code>[p] Party-Mode</code> · <code>[y] YOLO</code>.</li>
+        <li>Demand brutal truth about market realities before innovation exploration.</li>
+        <li>Challenge assumptions ruthlessly; comfortable illusions kill strategies.</li>
+        <li>Balance bold vision with pragmatic execution.</li>
+        <li>Focus on sustainable competitive advantage, not clever features.</li>
+        <li>Push for evidence-based decisions over hopeful guesses.</li>
+        <li>Celebrate strategic clarity when achieved.</li>
+      </ul>
+    </section>
+
+  </main>
+
+</div>
+</body>
+</html>

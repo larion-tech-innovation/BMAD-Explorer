@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Storytelling — Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=JetBrains+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #14211D; --ink-soft: #3D5750; --ink-mute: #7C948D;
+    --paper: #FCFEFD; --paper-warm: #EDF5F3; --rule: #14211D;
+    --accent: #0E8C7E; --highlight: #D9531E;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; scroll-behavior: smooth; }
+  body { background: var(--paper); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; font-weight: 300; line-height: 1.68; font-size: 0.9375rem; -webkit-font-smoothing: antialiased; animation: pageFadeIn 0.4s ease; }
+  @keyframes pageFadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .layout { display: grid; grid-template-columns: 280px minmax(0, 1fr); grid-template-rows: auto 1fr; grid-template-areas: "masthead masthead" "toc article"; max-width: 1300px; margin: 0 auto; min-height: 100vh; }
+  header.masthead { grid-area: masthead; border-bottom: 2px solid var(--rule); padding: 28px 44px 24px; background: var(--paper-warm); }
+  .masthead-top { display: flex; justify-content: space-between; align-items: center; font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.16em; color: var(--ink-mute); margin-bottom: 14px; flex-wrap: wrap; gap: 6px; }
+  .masthead-top .left { display: flex; gap: 18px; flex-wrap: wrap; }
+  h1.title { font-family: 'Fraunces', serif; font-weight: 600; font-size: clamp(1.9rem, 4vw, 2.8rem); letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 10px; }
+  h1.title em { font-style: italic; font-weight: 300; color: var(--ink-soft); }
+  p.subtitle { font-size: 0.97rem; color: var(--ink-soft); max-width: 700px; margin-bottom: 18px; }
+  dl.meta-grid { display: flex; flex-wrap: wrap; gap: 0; border: 1px solid var(--rule); border-right: none; }
+  dl.meta-grid > div { border-right: 1px solid var(--rule); padding: 9px 16px; min-width: 120px; }
+  dl.meta-grid dt { font-family: 'JetBrains Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-mute); margin-bottom: 3px; }
+  dl.meta-grid dd { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; }
+  aside.toc { grid-area: toc; border-right: 1px solid var(--rule); padding: 30px 0; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+  .toc-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.22em; color: var(--ink-mute); padding: 14px 24px 6px; border-bottom: 1px solid rgba(20,33,29,.12); margin-bottom: 6px; }
+  .toc-label:first-child { padding-top: 0; }
+  aside.toc nav a { display: block; padding: 6px 24px; font-size: 12.5px; color: var(--ink-soft); text-decoration: none; transition: color 0.2s ease, padding-left 0.2s ease; }
+  aside.toc nav a:hover { color: var(--accent); padding-left: 28px; }
+  main.article { grid-area: article; padding: 48px 56px 80px; }
+  h2.sec-heading { font-family: 'Fraunces', serif; font-weight: 600; font-size: clamp(1.4rem, 2.5vw, 2rem); letter-spacing: -0.02em; margin-bottom: 20px; display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+  h2.sec-heading .marker { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.16em; color: var(--paper); background: var(--ink); padding: 3px 10px; }
+  h2.sec-heading .marker.why { background: var(--accent); }
+  h2.sec-heading .marker.how { background: var(--highlight); }
+  h3.sub-heading { font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.3rem; margin: 40px 0 16px; letter-spacing: -0.01em; }
+  p { margin-bottom: 14px; }
+  p.lede { font-size: 1.02rem; color: var(--ink-soft); font-style: italic; margin-bottom: 20px; }
+  code { font-family: 'JetBrains Mono', monospace; font-size: 0.83em; background: var(--paper-warm); border: 1px solid rgba(20,33,29,.2); padding: 1px 5px; color: var(--ink-soft); }
+  strong { font-weight: 600; }
+  blockquote.quote { border-left: 3px solid var(--accent); padding: 4px 0 4px 18px; margin: 16px 0 22px; font-style: italic; color: var(--ink-soft); font-size: 0.95rem; }
+  dl.persona-block { border: 1px solid var(--rule); background: var(--paper); margin: 0 0 28px; display: grid; grid-template-columns: 140px 1fr; }
+  dl.persona-block dt { font-family: 'JetBrains Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-mute); padding: 10px 14px; border-bottom: 1px dotted rgba(20,33,29,.18); border-right: 1px solid rgba(20,33,29,.18); background: var(--paper-warm); }
+  dl.persona-block dd { font-size: 0.88rem; padding: 10px 14px; border-bottom: 1px dotted rgba(20,33,29,.18); color: var(--ink-soft); }
+  dl.persona-block dt:last-of-type, dl.persona-block dd:last-child { border-bottom: none; }
+  .flow-steps { margin: 20px 0 32px; }
+  .flow-step { display: grid; grid-template-columns: 48px 1fr; border: 1px solid var(--rule); border-bottom: none; transition: background 0.2s ease; }
+  .flow-step:hover { background: var(--paper-warm); }
+  .flow-step:last-child { border-bottom: 1px solid var(--rule); }
+  .flow-step-num { background: var(--ink); color: var(--paper); font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+  .flow-step-body { padding: 14px 18px; border-left: 1px solid var(--rule); }
+  .flow-step-title { font-family: 'Fraunces', serif; font-size: 1.05rem; font-weight: 600; margin-bottom: 5px; }
+  .flow-step-desc { font-size: 12.5px; color: var(--ink-soft); }
+  ul.checklist { list-style: none; margin: 0 0 22px; }
+  ul.checklist li { padding: 7px 0 7px 22px; position: relative; font-size: 0.88rem; color: var(--ink-soft); border-bottom: 1px dotted rgba(20,33,29,.12); }
+  ul.checklist li:last-child { border-bottom: none; }
+  ul.checklist li::before { content: '□'; position: absolute; left: 0; font-family: 'JetBrains Mono', monospace; color: var(--ink-mute); }
+  .toolkit-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1px; border: 1px solid var(--rule); background: var(--paper); margin: 18px 0 32px; }
+  .toolkit-card { background: var(--paper); padding: 15px 17px; box-shadow: 0 0 0 1px var(--rule); transition: background 0.2s ease; }
+  .toolkit-card:hover { background: var(--paper-warm); }
+  .toolkit-card .t-name { font-family: 'Fraunces', serif; font-weight: 600; font-size: 0.95rem; margin-bottom: 6px; }
+  .toolkit-card .t-desc { font-size: 12px; color: var(--ink-soft); }
+  hr.divider { border: none; border-top: 1px solid var(--rule); margin: 52px 0; position: relative; }
+  hr.divider::after { content: '◆'; position: absolute; top: -6px; left: 0; background: var(--paper); padding-right: 12px; font-size: 8px; color: var(--ink-mute); }
+  @media (max-width: 900px) { .layout { grid-template-columns: 1fr; grid-template-areas: "masthead" "article"; } aside.toc { display: none; } main.article { padding: 32px 24px 60px; } }
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <header class="masthead">
+    <div class="masthead-top">
+      <div class="left">
+        <span>BMAD CIS · Creative Intelligence Suite</span>
+        <span>Skill · bmad-cis-storytelling</span>
+        <span>Agent · Sophia (Master Storyteller)</span>
+      </div>
+    </div>
+    <h1 class="title">Storytelling <em>· Narrative Craft, Guided Not Written-For-You</em></h1>
+    <p class="subtitle">A 10-step narrative workflow across proven frameworks (Hero's Journey, Pixar Story Spine, Brand Story, Pitch Narrative, Data Storytelling, and more) — draws the story out of you through questions, then adapts it into short/medium/extended variations.</p>
+    <dl class="meta-grid">
+      <div><dt>Skill code</dt><dd>bmad-cis-storytelling</dd></div>
+      <div><dt>Menu code</dt><dd>ST</dd></div>
+      <div><dt>Agent</dt><dd>Sophia</dd></div>
+      <div><dt>Output</dt><dd>story-{date}.md</dd></div>
+      <div><dt>Steps</dt><dd>10 (all mandatory)</dd></div>
+      <div><dt>Phase</dt><dd>anytime</dd></div>
+    </dl>
+  </header>
+
+  <aside class="toc">
+    <nav>
+      <div class="toc-label">§ WHAT</div>
+      <a href="#what-overview">Skill Overview</a>
+      <a href="#step-flow">10-Step Flow</a>
+      <div class="toc-label">§ WHY</div>
+      <a href="#why-questions">Why Guide Through Questions</a>
+      <a href="#why-variations">Why Three Length Variations</a>
+      <div class="toc-label">§ HOW</div>
+      <a href="#before-calling">Before Calling This Skill</a>
+      <a href="#toolkit">Applied Toolkit</a>
+      <a href="#guardrails">Behavioral Constraints</a>
+    </nav>
+  </aside>
+
+  <main class="article">
+
+    <section id="what-overview">
+      <h2 class="sec-heading"><span class="marker">§ WHAT</span>Storytelling — <em>What does this skill do?</em></h2>
+      <dl class="persona-block">
+        <dt>Skill code</dt><dd><code>bmad-cis-storytelling</code></dd>
+        <dt>Agent</dt><dd>Sophia — Master Storyteller. "Master bard" style: flowery, enrapturing narrative voice; remembers your story preferences and past stories across sessions.</dd>
+        <dt>Trigger</dt><dd><em>"help me with storytelling"</em> · <em>"I want to create a narrative through storytelling"</em></dd>
+        <dt>Input</dt><dd>Story purpose, target audience, key messages, constraints, channel/format; the user's own story elements, drawn out via Socratic questioning.</dd>
+        <dt>Output</dt><dd><code>{output_folder}/story-{date}.md</code>, with three length variations (short / medium / extended).</dd>
+      </dl>
+      <blockquote class="quote">"You are a master storyteller and narrative guide. Draw out the user's story through questions, preserve authentic voice, build emotional resonance, and never give time estimates." — Sophia's Role, verbatim from SKILL.md</blockquote>
+      <p>Sophia crafts compelling narratives through structured story development, emotional arc design, and channel-specific adaptations. The workflow presents narrative frameworks and lets the user pick the best fit, then draws out the story's real content — conflict, transformation, stakes — through questions rather than inventing it wholesale, before producing channel-ready variations.</p>
+
+      <h3 class="sub-heading" id="step-flow">10-Step Flow</h3>
+      <div class="flow-steps">
+        <div class="flow-step"><div class="flow-step-num">1</div><div class="flow-step-body"><div class="flow-step-title">Story context setup</div><div class="flow-step-desc">Gather purpose, audience, key messages, and constraints for the narrative.</div></div></div>
+        <div class="flow-step"><div class="flow-step-num">2</div><div class="flow-step-body"><div class="flow-step-title">Select story framework</div><div class="flow-step-desc">Present narrative frameworks (Hero's Journey, Pixar Story Spine, Brand Story, Pitch Narrative, Data Storytelling, and others) and recommend a best fit; user selects.</div></div></div>
+        <div class="flow-step"><div class="flow-step-num">3</div><div class="flow-step-body"><div class="flow-step-title">Gather story elements</div><div class="flow-step-desc">Use Socratic questioning to draw out authentic narrative components; guide through framework-specific beats (conflict, transformation, stakes).</div></div></div>
+        <div class="flow-step"><div class="flow-step-num">4</div><div class="flow-step-body"><div class="flow-step-title">Craft emotional arc</div><div class="flow-step-desc">Identify relatable struggles, turning points, and satisfying payoffs; design the emotional journey for audience impact.</div></div></div>
+        <div class="flow-step"><div class="flow-step-num">5</div><div class="flow-step-body"><div class="flow-step-title">Develop opening hook</div><div class="flow-step-desc">Create a compelling first moment that grabs the audience.</div></div></div>
+        <div class="flow-step"><div class="flow-step-num">6</div><div class="flow-step-body"><div class="flow-step-title">Write core narrative</div><div class="flow-step-desc">Offer three authoring paths — user-drafted, AI-drafted, or collaborative — and complete the story in the chosen mode.</div></div></div>
+        <div class="flow-step"><div class="flow-step-num">7</div><div class="flow-step-body"><div class="flow-step-title">Create story variations</div><div class="flow-step-desc">Adapt the content for three lengths: short (social media), medium (email/blog), extended (articles/presentations).</div></div></div>
+        <div class="flow-step"><div class="flow-step-num">8</div><div class="flow-step-body"><div class="flow-step-title">Usage guidelines</div><div class="flow-step-desc">Provide strategic deployment guidance for different channels and audiences.</div></div></div>
+        <div class="flow-step"><div class="flow-step-num">9</div><div class="flow-step-body"><div class="flow-step-title">Refinement and next steps</div><div class="flow-step-desc">Refine the narrative based on user feedback; identify remaining improvements.</div></div></div>
+        <div class="flow-step"><div class="flow-step-num">10</div><div class="flow-step-body"><div class="flow-step-title">Generate final output</div><div class="flow-step-desc">Compile everything into the structured template and save to a dated markdown file.</div></div></div>
+      </div>
+      <p style="font-size:12px;color:var(--ink-mute);">Note: unlike Innovation Strategy, Problem Solving, and Design Thinking, Storytelling's SKILL.md has no <code>&lt;energy-checkpoint&gt;</code> tags — confirmed by direct inspection this run. It relies on the same universal template-output checkpoint (below) instead of dedicated energy check-ins.</p>
+    </section>
+
+    <hr class="divider">
+
+    <section id="why-questions">
+      <h2 class="sec-heading"><span class="marker why">§ WHY</span>Design Rationale</h2>
+      <h3 class="sub-heading">Why guide through questions rather than writing for the user</h3>
+      <p class="lede">Sophia's Facilitation Principles, verbatim: "guide through questions rather than writing for the user unless they explicitly ask you to draft" and "stay anchored in the user's authentic voice and core truth."</p>
+      <p>Step 3's Socratic questioning exists because a story an AI invents wholesale reads as generic — the details that make a narrative land (real struggles, real turning points) live in the user's own experience. Sophia's job is to draw those out and shape them with framework and craft, not replace them with invented content.</p>
+      <h3 class="sub-heading" id="why-variations">Why three length variations</h3>
+      <p>A single narrative rarely fits every channel — a social post, an email, and a conference talk each need different pacing and detail. Step 7 produces all three from the same core narrative so the user doesn't have to re-derive the story for each format.</p>
+    </section>
+
+    <hr class="divider">
+
+    <section id="before-calling">
+      <h2 class="sec-heading"><span class="marker how">§ HOW</span>Using This Skill</h2>
+      <h3 class="sub-heading">Before calling this skill</h3>
+      <ul class="checklist">
+        <li>Know your story's purpose, target audience, key messages, and constraints — Step 1 asks for these directly.</li>
+        <li>Know which channel(s) you'll ultimately publish to, so Step 7's variations land right.</li>
+        <li>Come with real story material if you have it — Sophia draws it out via questions rather than inventing it for you.</li>
+      </ul>
+
+      <h3 class="sub-heading" id="toolkit">Applied Toolkit</h3>
+      <div class="toolkit-grid">
+        <div class="toolkit-card"><div class="t-name">Hero's Journey</div><div class="t-desc">Classic transformation-arc structure.</div></div>
+        <div class="toolkit-card"><div class="t-name">Pixar Story Spine</div><div class="t-desc">"Once upon a time... until finally" template.</div></div>
+        <div class="toolkit-card"><div class="t-name">Brand Story</div><div class="t-desc">Origin/values-driven narrative framing.</div></div>
+        <div class="toolkit-card"><div class="t-name">Pitch Narrative</div><div class="t-desc">Problem-solution-outcome story arc for pitches.</div></div>
+        <div class="toolkit-card"><div class="t-name">Data Storytelling</div><div class="t-desc">Numbers-driven narrative framing.</div></div>
+        <div class="toolkit-card"><div class="t-name">Socratic Questioning</div><div class="t-desc">Draws authentic material from the user.</div></div>
+      </div>
+
+      <h3 class="sub-heading" id="guardrails">Behavioral Constraints &amp; Facilitation Principles</h3>
+      <p style="font-size:12px;color:var(--ink-mute);margin-bottom:10px;">Verbatim from SKILL.md — not paraphrased.</p>
+      <ul class="checklist">
+        <li>Communicate all responses in <code>{communication_language}</code>.</li>
+        <li>Do not give time estimates.</li>
+        <li>After every <code>&lt;template-output&gt;</code>, immediately save the current artifact, show a checkpoint separator, and present <code>[a] Advanced Elicitation</code> · <code>[c] Continue</code> · <code>[p] Party-Mode</code> · <code>[y] YOLO</code>.</li>
+        <li>Guide through questions rather than writing for the user unless they explicitly ask you to draft.</li>
+        <li>Find the conflict, tension, or struggle that makes the story matter.</li>
+        <li>Show rather than tell through vivid, concrete details.</li>
+        <li>Treat change and transformation as central to story structure.</li>
+        <li>Use emotion intentionally because emotion drives memory.</li>
+        <li>Stay anchored in the user's authentic voice and core truth.</li>
+      </ul>
+    </section>
+
+  </main>
+
+</div>
+</body>
+</html>

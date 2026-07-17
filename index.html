@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BMAD Explorer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=JetBrains+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #FFFFFF;
+      --paper-deep: #F5F5F5;
+      --ink: #141414;
+      --ink-soft: #3D3A35;
+      --ink-mute: #8A8478;
+      --rule: #1A1A1A;
+      --accent: #B8471E;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      padding: 32px 16px 80px;
+      background-image:
+        radial-gradient(circle at 20% 10%, rgba(184,71,30,0.04) 0%, transparent 50%),
+        radial-gradient(circle at 80% 90%, rgba(20,20,20,0.03) 0%, transparent 50%);
+    }
+
+    .page {
+      max-width: 1180px;
+      margin: 0 auto;
+      background: var(--paper);
+      border: 1px solid var(--rule);
+      padding: 56px 56px 72px;
+      position: relative;
+      box-shadow: 0 40px 80px -40px rgba(20,20,20,0.25);
+    }
+    .page::before {
+      content: "";
+      position: absolute; inset: 0;
+      pointer-events: none;
+      opacity: 0.35;
+      mix-blend-mode: multiply;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.08  0 0 0 0 0.08  0 0 0 0 0.08  0 0 0 0.18 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.5'/></svg>");
+    }
+    .page > * { position: relative; z-index: 1; }
+
+    /* MASTHEAD */
+    .masthead {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding-bottom: 28px;
+      border-bottom: 2px solid var(--rule);
+    }
+    .masthead-left { display: flex; align-items: center; gap: 18px; }
+    .logo-mark {
+      width: 56px; height: 56px;
+      border: 2px solid var(--ink);
+      display: grid; place-items: center;
+      font-family: 'Fraunces', serif;
+      font-weight: 600; font-size: 28px;
+      font-style: italic;
+      background: var(--ink); color: var(--paper);
+      font-variation-settings: 'SOFT' 100;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .logo-mark img { width: 100%; height: 100%; object-fit: contain; }
+    .logo-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-soft); line-height: 1.5;
+    }
+    .logo-text strong { color: var(--ink); font-weight: 600; display: block; font-size: 13px; }
+    .logo-text .accent { display: block; margin-top: 4px; font-size: 10px; letter-spacing: 0.16em; }
+
+    /* HERO */
+    .hero { padding: 56px 0 40px; border-bottom: 1px solid var(--rule); }
+    .hero h1 {
+      font-family: 'Fraunces', serif;
+      font-weight: 300;
+      font-size: clamp(52px, 8vw, 108px);
+      line-height: 0.92; letter-spacing: -0.02em;
+      font-variation-settings: 'SOFT' 30, 'opsz' 144;
+    }
+    .hero h1 em {
+      font-style: italic; color: var(--accent);
+      font-variation-settings: 'SOFT' 100, 'opsz' 144, 'WONK' 1;
+    }
+    .hero .hero-desc {
+      margin-top: 22px;
+      max-width: 620px;
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 17px; font-weight: 300;
+      line-height: 1.55; color: var(--ink-soft);
+    }
+    .hero .hero-desc em {
+      font-family: 'Fraunces', serif;
+      font-style: italic; color: var(--accent);
+      font-variation-settings: 'SOFT' 100, 'WONK' 1;
+    }
+
+    /* GROUP */
+    .group { margin-top: 40px; }
+    .group:first-of-type { margin-top: 0px; }
+
+    /* DOC CARDS */
+    a.doc {
+      background: var(--paper);
+      padding: 12px 16px;
+      border: 1px solid var(--rule);
+      display: flex; flex-direction: row; align-items: center;
+      gap: 14px;
+      text-decoration: none; color: var(--ink);
+      position: relative;
+      transition: background .18s ease;
+    }
+    a.doc + a.doc { border-top: none; }
+    a.doc::before {
+      content: ""; position: absolute; left: 0; top: 0; bottom: 0;
+      width: 0; background: var(--accent); transition: width .18s ease;
+    }
+    a.doc:hover { background: var(--paper-deep); }
+    a.doc:hover::before { width: 4px; }
+    .doc-main {
+      display: flex; flex-direction: column; gap: 2px;
+      min-width: 0; flex: 1;
+    }
+    .doc-idx {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5px; letter-spacing: 0.08em; color: var(--ink-mute);
+    }
+    .doc-avatar {
+      width: 32px; height: 32px; flex-shrink: 0;
+      border: 1.5px solid var(--accent);
+      display: grid; place-items: center;
+      font-family: 'Fraunces', serif;
+      font-weight: 500; font-size: 16px; font-style: italic;
+      color: var(--accent); background: var(--paper);
+      font-variation-settings: 'SOFT' 100;
+    }
+    .doc-role {
+      font-family: 'Fraunces', serif;
+      font-size: 17px; font-weight: 500;
+      letter-spacing: -0.01em; line-height: 1.2;
+      font-variation-settings: 'SOFT' 30, 'opsz' 36;
+    }
+    .doc-open {
+      flex-shrink: 0;
+      display: flex; align-items: center;
+      color: var(--ink-mute);
+      transition: color .18s ease;
+    }
+    .doc-open .chev { width: 9px; height: 9px; color: var(--accent); transition: transform .18s ease; }
+    a.doc:hover .doc-open { color: var(--accent); }
+    a.doc:hover .doc-open .chev { transform: translateX(3px); }
+
+    @media (max-width: 900px) {
+      .page { padding: 32px 24px 48px; }
+    }
+    @media (max-width: 600px) {
+      .masthead { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <article class="page">
+
+    <!-- MASTHEAD -->
+    <header class="masthead">
+      <div class="masthead-left">
+        <div class="logo-mark"><img src="logo.png" alt="LARION"></div>
+        <div class="logo-text">
+          <strong>BMAD EXPLORER</strong>
+          <span class="accent">LARION</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+      <h1>BMAD<em> Explorer</em></h1>
+      <p class="hero-desc">A curated index of <em>BMAD Method</em> resources — process maps, agent guides, and knowledge references for AI-driven software development at LARION.</p>
+    </section>
+
+    <div class="group">
+      <a class="doc" href="BMAD/bmad-bmm-v610-WITH_WDS-TEA.html" data-name="bmm v6.10 with wds & tea">
+        <span class="doc-avatar">B</span>
+        <span class="doc-main">
+          <span class="doc-idx">01</span>
+          <span class="doc-role">BMM v6.10 with WDS & TEA</span>
+        </span>
+        <span class="doc-open"><svg class="chev" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 1.5l3 2.5-3 2.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="square"/></svg></span>
+      </a>
+      <a class="doc" href="BMAD/bmad-tea-knowledge.html" data-name="tea knowledge">
+        <span class="doc-avatar">T</span>
+        <span class="doc-main">
+          <span class="doc-idx">02</span>
+          <span class="doc-role">TEA Knowledge</span>
+        </span>
+        <span class="doc-open"><svg class="chev" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 1.5l3 2.5-3 2.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="square"/></svg></span>
+      </a>
+      <a class="doc" href="BMAD_CIS/bmad-cis/bmad-cis-v0.2.1.html" data-name="bmad cis v0.2.1">
+        <span class="doc-avatar">C</span>
+        <span class="doc-main">
+          <span class="doc-idx">03</span>
+          <span class="doc-role">CIS v0.2.1</span>
+        </span>
+        <span class="doc-open"><svg class="chev" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 1.5l3 2.5-3 2.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="square"/></svg></span>
+      </a>
+    </div>
+
+  </article>
+</body>
+</html>

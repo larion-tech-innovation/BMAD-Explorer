@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brainstorming — Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=JetBrains+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #14211D; --ink-soft: #3D5750; --ink-mute: #7C948D;
+    --paper: #FCFEFD; --paper-warm: #EDF5F3; --rule: #14211D;
+    --accent: #0E8C7E; --highlight: #D9531E;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; scroll-behavior: smooth; }
+  body { background: var(--paper); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; font-weight: 300; line-height: 1.68; font-size: 0.9375rem; -webkit-font-smoothing: antialiased; animation: pageFadeIn 0.4s ease; }
+  @keyframes pageFadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .layout { display: grid; grid-template-columns: 280px minmax(0, 1fr); grid-template-rows: auto 1fr; grid-template-areas: "masthead masthead" "toc article"; max-width: 1300px; margin: 0 auto; min-height: 100vh; }
+  header.masthead { grid-area: masthead; border-bottom: 2px solid var(--rule); padding: 28px 44px 24px; background: var(--paper-warm); }
+  .masthead-top { display: flex; justify-content: space-between; align-items: center; font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.16em; color: var(--ink-mute); margin-bottom: 14px; flex-wrap: wrap; gap: 6px; }
+  .masthead-top .left { display: flex; gap: 18px; flex-wrap: wrap; }
+  .core-badge { font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--highlight); border: 1px solid var(--highlight); padding: 3px 9px; background: rgba(217,83,30,0.06); }
+  h1.title { font-family: 'Fraunces', serif; font-weight: 600; font-size: clamp(1.9rem, 4vw, 2.8rem); letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 10px; }
+  h1.title em { font-style: italic; font-weight: 300; color: var(--ink-soft); }
+  p.subtitle { font-size: 0.97rem; color: var(--ink-soft); max-width: 700px; margin-bottom: 18px; }
+  dl.meta-grid { display: flex; flex-wrap: wrap; gap: 0; border: 1px solid var(--rule); border-right: none; }
+  dl.meta-grid > div { border-right: 1px solid var(--rule); padding: 9px 16px; min-width: 120px; }
+  dl.meta-grid dt { font-family: 'JetBrains Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-mute); margin-bottom: 3px; }
+  dl.meta-grid dd { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; }
+  aside.toc { grid-area: toc; border-right: 1px solid var(--rule); padding: 30px 0; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+  .toc-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.22em; color: var(--ink-mute); padding: 14px 24px 6px; border-bottom: 1px solid rgba(20,33,29,.12); margin-bottom: 6px; }
+  .toc-label:first-child { padding-top: 0; }
+  aside.toc nav a { display: block; padding: 6px 24px; font-size: 12.5px; color: var(--ink-soft); text-decoration: none; transition: color 0.2s ease, padding-left 0.2s ease; }
+  aside.toc nav a:hover { color: var(--accent); padding-left: 28px; }
+  main.article { grid-area: article; padding: 48px 56px 80px; }
+  h2.sec-heading { font-family: 'Fraunces', serif; font-weight: 600; font-size: clamp(1.4rem, 2.5vw, 2rem); letter-spacing: -0.02em; margin-bottom: 20px; display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+  h2.sec-heading .marker { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.16em; color: var(--paper); background: var(--ink); padding: 3px 10px; }
+  h2.sec-heading .marker.why { background: var(--accent); }
+  h2.sec-heading .marker.how { background: var(--highlight); }
+  h3.sub-heading { font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.3rem; margin: 40px 0 16px; letter-spacing: -0.01em; }
+  p { margin-bottom: 14px; }
+  p.lede { font-size: 1.02rem; color: var(--ink-soft); font-style: italic; margin-bottom: 20px; }
+  code { font-family: 'JetBrains Mono', monospace; font-size: 0.83em; background: var(--paper-warm); border: 1px solid rgba(20,33,29,.2); padding: 1px 5px; color: var(--ink-soft); }
+  strong { font-weight: 600; }
+  .callout { border: 1px solid var(--highlight); background: rgba(217,83,30,0.05); padding: 15px 20px; margin: 0 0 26px; font-size: 0.88rem; color: var(--ink-soft); }
+  .callout strong { color: var(--highlight); }
+  dl.persona-block { border: 1px solid var(--rule); background: var(--paper); margin: 0 0 28px; display: grid; grid-template-columns: 140px 1fr; }
+  dl.persona-block dt { font-family: 'JetBrains Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-mute); padding: 10px 14px; border-bottom: 1px dotted rgba(20,33,29,.18); border-right: 1px solid rgba(20,33,29,.18); background: var(--paper-warm); }
+  dl.persona-block dd { font-size: 0.88rem; padding: 10px 14px; border-bottom: 1px dotted rgba(20,33,29,.18); color: var(--ink-soft); }
+  dl.persona-block dt:last-of-type, dl.persona-block dd:last-child { border-bottom: none; }
+  .toolkit-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1px; border: 1px solid var(--rule); background: var(--paper); margin: 18px 0 32px; }
+  .toolkit-card { background: var(--paper); padding: 15px 17px; box-shadow: 0 0 0 1px var(--rule); transition: background 0.2s ease; }
+  .toolkit-card:hover { background: var(--paper-warm); }
+  .toolkit-card .t-name { font-family: 'Fraunces', serif; font-weight: 600; font-size: 0.95rem; margin-bottom: 6px; }
+  .toolkit-card .t-desc { font-size: 12px; color: var(--ink-soft); }
+  ul.checklist { list-style: none; margin: 0 0 22px; }
+  ul.checklist li { padding: 7px 0 7px 22px; position: relative; font-size: 0.88rem; color: var(--ink-soft); border-bottom: 1px dotted rgba(20,33,29,.12); }
+  ul.checklist li:last-child { border-bottom: none; }
+  ul.checklist li::before { content: '□'; position: absolute; left: 0; font-family: 'JetBrains Mono', monospace; color: var(--ink-mute); }
+  hr.divider { border: none; border-top: 1px solid var(--rule); margin: 52px 0; position: relative; }
+  hr.divider::after { content: '◆'; position: absolute; top: -6px; left: 0; background: var(--paper); padding-right: 12px; font-size: 8px; color: var(--ink-mute); }
+  @media (max-width: 900px) { .layout { grid-template-columns: 1fr; grid-template-areas: "masthead" "article"; } aside.toc { display: none; } main.article { padding: 32px 24px 60px; } }
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <header class="masthead">
+    <div class="masthead-top">
+      <div class="left">
+        <span>BMAD CIS · Creative Intelligence Suite</span>
+        <span>Skill · bmad-brainstorming</span>
+        <span>Agent · Carson (Brainstorming Coach)</span>
+      </div>
+      <div class="right"><span class="core-badge">Core module skill</span></div>
+    </div>
+    <h1 class="title">Brainstorming <em>· Guided Ideation, 36 Techniques</em></h1>
+    <p class="subtitle">Facilitates a brainstorming session using 36 techniques across 7 categories. Cross-listed into the CIS menu under Carson, though the skill itself is owned by BMAD's core module, not CIS.</p>
+    <dl class="meta-grid">
+      <div><dt>Skill code</dt><dd>bmad-brainstorming</dd></div>
+      <div><dt>Menu code</dt><dd>BS</dd></div>
+      <div><dt>Agent (CIS)</dt><dd>Carson</dd></div>
+      <div><dt>Output</dt><dd>{output_folder}/brainstorming/</dd></div>
+      <div><dt>Steps</dt><dd>no fixed count — mode-routed</dd></div>
+      <div><dt>Module</dt><dd>core (cross-listed)</dd></div>
+    </dl>
+  </header>
+
+  <aside class="toc">
+    <nav>
+      <div class="toc-label">§ WHAT</div>
+      <a href="#what-overview">Skill Overview</a>
+      <a href="#three-stances">Three Stances</a>
+      <div class="toc-label">§ WHY</div>
+      <a href="#why-no-step-count">Why No Fixed Step Count</a>
+      <a href="#why-cross-listed">Why This Is a Core Skill, Not a CIS Skill</a>
+      <div class="toc-label">§ HOW</div>
+      <a href="#before-calling">Before Calling This Skill</a>
+      <a href="#toolkit">Applied Toolkit</a>
+      <a href="#guardrails">Guardrails</a>
+    </nav>
+  </aside>
+
+  <main class="article">
+
+    <section id="what-overview">
+      <h2 class="sec-heading"><span class="marker">§ WHAT</span>Brainstorming — <em>What does this skill do?</em></h2>
+
+      <div class="callout">
+        <strong>Not a CIS-native skill.</strong> The canonical <code>SKILL.md</code> is a core-module file, shared across BMAD modules, installed locally at <code>.claude/skills/bmad-brainstorming/SKILL.md</code> — not under CIS's own skill tree. Carson is the CIS-side agent who dispatches to it.
+      </div>
+
+      <dl class="persona-block">
+        <dt>Skill code</dt><dd><code>bmad-brainstorming</code></dd>
+        <dt>Agent (CIS)</dt><dd>Carson — Brainstorming Coach. Overview, verbatim from SKILL.md: "You are Carson, the Elite Brainstorming Specialist. You facilitate breakthrough ideation sessions using creative techniques and systematic innovation methods — making it safe for wild ideas to surface and precise about which ones rise."</dd>
+        <dt>Trigger</dt><dd><em>"help me brainstorm"</em> · <em>"help me ideate"</em></dd>
+        <dt>Input</dt><dd>The topic to brainstorm and the goal or "why" behind it, plus any special requests — gathered in one compound opening question.</dd>
+        <dt>Output</dt><dd><code>{output_folder}/brainstorming/</code> — a session folder with a resumable, append-only session log (<code>.memlog.md</code>) and the polished output built from it.</dd>
+      </dl>
+
+      <p>This skill runs a full brainstorming session: someone brings a topic and wants to generate far more, and far better, ideas than they'd reach alone — pushing past the obvious with sharper questions and harder constraints, with no rush to finish. It draws from a library of 36 techniques across 7 categories (Collaborative, Structured, Creative, Deep, Theatrical, Wild, Introspective).</p>
+
+      <h3 class="sub-heading" id="three-stances">Three Stances</h3>
+      <p class="lede">Before technique selection, the user picks a stance — it governs how much of the ideation work Carson does versus draws out of the user.</p>
+      <ul class="checklist">
+        <li><strong>Facilitator</strong> — Carson never supplies ideas; a forcing function for the user's own thinking.</li>
+        <li><strong>Creative Partner</strong> — Carson facilitates and plays along, trading ideas back and forth; each idea's authorship (user vs. coach) is tagged.</li>
+        <li><strong>Ideate for me</strong> — Carson runs the whole session and shows the user the result.</li>
+      </ul>
+      <p>The chosen stance holds for the whole session and does not change which techniques are available.</p>
+    </section>
+
+    <hr class="divider">
+
+    <section id="why-no-step-count">
+      <h2 class="sec-heading"><span class="marker why">§ WHY</span>Design Rationale</h2>
+      <h3 class="sub-heading">Why this skill has no fixed step count</h3>
+      <p class="lede">Unlike CIS's own 4 workflow skills, brainstorming has no <code>&lt;step n&gt;</code> sequence — it's intent/mode-routed, not linear.</p>
+      <p>The session's shape depends entirely on which of the three stances the user picks and how long the ideation runs — the point is to "aim past 100 ideas and resist concluding," which is fundamentally open-ended, not a fixed procedure with a predetermined number of stages. Forcing a step count onto it would misrepresent how the skill actually behaves.</p>
+      <h3 class="sub-heading" id="why-cross-listed">Why this is a core skill, not a CIS skill</h3>
+      <p>Brainstorming is useful far beyond creative work — BMM and other BMAD modules use the exact same skill. Rather than duplicate it inside CIS, the module cross-lists it into Carson's menu so CIS users get the same well-maintained brainstorming capability everyone else does, while its ownership and maintenance stay centralized in core.</p>
+    </section>
+
+    <hr class="divider">
+
+    <section id="before-calling">
+      <h2 class="sec-heading"><span class="marker how">§ HOW</span>Using This Skill</h2>
+      <h3 class="sub-heading">Before calling this skill</h3>
+      <ul class="checklist">
+        <li>Have your topic and the goal or "why" behind it ready — the opening question asks for both together.</li>
+        <li>Decide (or let Carson ask) which stance fits: Facilitator, Creative Partner, or Ideate for me.</li>
+        <li>If resuming a prior session, Carson checks the output folder on activation and offers to continue.</li>
+      </ul>
+
+      <h3 class="sub-heading" id="toolkit">Applied Toolkit</h3>
+      <div class="toolkit-grid">
+        <div class="toolkit-card"><div class="t-name">Collaborative</div><div class="t-desc">Techniques built for group-style back-and-forth.</div></div>
+        <div class="toolkit-card"><div class="t-name">Structured</div><div class="t-desc">Frameworks with defined steps or prompts.</div></div>
+        <div class="toolkit-card"><div class="t-name">Creative</div><div class="t-desc">Techniques for lateral, associative thinking.</div></div>
+        <div class="toolkit-card"><div class="t-name">Deep</div><div class="t-desc">Techniques probing underlying assumptions.</div></div>
+        <div class="toolkit-card"><div class="t-name">Theatrical</div><div class="t-desc">Role-play and perspective-shifting techniques.</div></div>
+        <div class="toolkit-card"><div class="t-name">Wild</div><div class="t-desc">Deliberately unconstrained idea generation.</div></div>
+        <div class="toolkit-card"><div class="t-name">Introspective</div><div class="t-desc">Reflection-driven idea generation.</div></div>
+      </div>
+      <p>36 techniques total across the 7 categories above, including SCAMPER and Reverse Brainstorming.</p>
+
+      <h3 class="sub-heading" id="guardrails">Guardrails</h3>
+      <p style="font-size:12px;color:var(--ink-mute);margin-bottom:10px;">Grounded in the core SKILL.md's own "Framing" section, verified this run.</p>
+      <ul class="checklist">
+        <li>Aim past 100 ideas; resist concluding — push for one more when in doubt.</li>
+        <li>Keep shifting the creative domain every 5-10 turns to prevent anchoring.</li>
+        <li>One prompt per message while in dialogue — no stacked questions, no multiple-choice menus that invite lazy picking.</li>
+        <li>Makes it "safe for wild ideas to surface" while staying "precise about which ones rise" — psychological safety, "yes-and" improvisation.</li>
+        <li>Every idea logged to an append-only session log — never edited in place, only appended.</li>
+      </ul>
+    </section>
+
+  </main>
+
+</div>
+</body>
+</html>

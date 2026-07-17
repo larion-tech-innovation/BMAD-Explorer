@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Problem Solving — Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=JetBrains+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #14211D; --ink-soft: #3D5750; --ink-mute: #7C948D;
+    --paper: #FCFEFD; --paper-warm: #EDF5F3; --rule: #14211D;
+    --accent: #0E8C7E; --highlight: #D9531E;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; scroll-behavior: smooth; }
+  body { background: var(--paper); color: var(--ink); font-family: 'IBM Plex Sans', sans-serif; font-weight: 300; line-height: 1.68; font-size: 0.9375rem; -webkit-font-smoothing: antialiased; animation: pageFadeIn 0.4s ease; }
+  @keyframes pageFadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .layout { display: grid; grid-template-columns: 280px minmax(0, 1fr); grid-template-rows: auto 1fr; grid-template-areas: "masthead masthead" "toc article"; max-width: 1300px; margin: 0 auto; min-height: 100vh; }
+  header.masthead { grid-area: masthead; border-bottom: 2px solid var(--rule); padding: 28px 44px 24px; background: var(--paper-warm); }
+  .masthead-top { display: flex; justify-content: space-between; align-items: center; font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.16em; color: var(--ink-mute); margin-bottom: 14px; flex-wrap: wrap; gap: 6px; }
+  .masthead-top .left { display: flex; gap: 18px; flex-wrap: wrap; }
+  h1.title { font-family: 'Fraunces', serif; font-weight: 600; font-size: clamp(1.9rem, 4vw, 2.8rem); letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 10px; }
+  h1.title em { font-style: italic; font-weight: 300; color: var(--ink-soft); }
+  p.subtitle { font-size: 0.97rem; color: var(--ink-soft); max-width: 700px; margin-bottom: 18px; }
+  dl.meta-grid { display: flex; flex-wrap: wrap; gap: 0; border: 1px solid var(--rule); border-right: none; }
+  dl.meta-grid > div { border-right: 1px solid var(--rule); padding: 9px 16px; min-width: 120px; }
+  dl.meta-grid dt { font-family: 'JetBrains Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-mute); margin-bottom: 3px; }
+  dl.meta-grid dd { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; }
+  aside.toc { grid-area: toc; border-right: 1px solid var(--rule); padding: 30px 0; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+  .toc-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.22em; color: var(--ink-mute); padding: 14px 24px 6px; border-bottom: 1px solid rgba(20,33,29,.12); margin-bottom: 6px; }
+  .toc-label:first-child { padding-top: 0; }
+  aside.toc nav a { display: block; padding: 6px 24px; font-size: 12.5px; color: var(--ink-soft); text-decoration: none; transition: color 0.2s ease, padding-left 0.2s ease; }
+  aside.toc nav a:hover { color: var(--accent); padding-left: 28px; }
+  main.article { grid-area: article; padding: 48px 56px 80px; }
+  h2.sec-heading { font-family: 'Fraunces', serif; font-weight: 600; font-size: clamp(1.4rem, 2.5vw, 2rem); letter-spacing: -0.02em; margin-bottom: 20px; display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+  h2.sec-heading .marker { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.16em; color: var(--paper); background: var(--ink); padding: 3px 10px; }
+  h2.sec-heading .marker.why { background: var(--accent); }
+  h2.sec-heading .marker.how { background: var(--highlight); }
+  h3.sub-heading { font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.3rem; margin: 40px 0 16px; letter-spacing: -0.01em; }
+  p { margin-bottom: 14px; }
+  p.lede { font-size: 1.02rem; color: var(--ink-soft); font-style: italic; margin-bottom: 20px; }
+  code { font-family: 'JetBrains Mono', monospace; font-size: 0.83em; background: var(--paper-warm); border: 1px solid rgba(20,33,29,.2); padding: 1px 5px; color: var(--ink-soft); }
+  strong { font-weight: 600; }
+  blockquote.quote { border-left: 3px solid var(--accent); padding: 4px 0 4px 18px; margin: 16px 0 22px; font-style: italic; color: var(--ink-soft); font-size: 0.95rem; }
+  dl.persona-block { border: 1px solid var(--rule); background: var(--paper); margin: 0 0 28px; display: grid; grid-template-columns: 140px 1fr; }
+  dl.persona-block dt { font-family: 'JetBrains Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-mute); padding: 10px 14px; border-bottom: 1px dotted rgba(20,33,29,.18); border-right: 1px solid rgba(20,33,29,.18); background: var(--paper-warm); }
+  dl.persona-block dd { font-size: 0.88rem; padding: 10px 14px; border-bottom: 1px dotted rgba(20,33,29,.18); color: var(--ink-soft); }
+  dl.persona-block dt:last-of-type, dl.persona-block dd:last-child { border-bottom: none; }
+  .flow-steps { margin: 20px 0 32px; }
+  .flow-step { display: grid; grid-template-columns: 48px 1fr; border: 1px solid var(--rule); border-bottom: none; transition: background 0.2s ease; }
+  .flow-step:hover { background: var(--paper-warm); }
+  .flow-step:last-child { border-bottom: 1px solid var(--rule); }
+  .flow-step-num { background: var(--ink); color: var(--paper); font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+  .flow-step-body { padding: 14px 18px; border-left: 1px solid var(--rule); }
+  .flow-step-title { font-family: 'Fraunces', serif; font-size: 1.05rem; font-weight: 600; margin-bottom: 5px; }
+  .flow-step-desc { font-size: 12.5px; color: var(--ink-soft); }
+  .flow-step-tag { font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--highlight); margin-left: 8px; }
+  ul.checklist { list-style: none; margin: 0 0 22px; }
+  ul.checklist li { padding: 7px 0 7px 22px; position: relative; font-size: 0.88rem; color: var(--ink-soft); border-bottom: 1px dotted rgba(20,33,29,.12); }
+  ul.checklist li:last-child { border-bottom: none; }
+  ul.checklist li::before { content: '□'; position: absolute; left: 0; font-family: 'JetBrains Mono', monospace; color: var(--ink-mute); }
+  .toolkit-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1px; border: 1px solid var(--rule); background: var(--paper); margin: 18px 0 32px; }
+  .toolkit-card { background: var(--paper); padding: 15px 17px; box-shadow: 0 0 0 1px var(--rule); transition: background 0.2s ease; }
+  .toolkit-card:hover { background: var(--paper-warm); }
+  .toolkit-card .t-name { font-family: 'Fraunces', serif; font-weight: 600; font-size: 0.95rem; margin-bottom: 6px; }
+  .toolkit-card .t-desc { font-size: 12px; color: var(--ink-soft); }
+  hr.divider { border: none; border-top: 1px solid var(--rule); margin: 52px 0; position: relative; }
+  hr.divider::after { content: '◆'; position: absolute; top: -6px; left: 0; background: var(--paper); padding-right: 12px; font-size: 8px; color: var(--ink-mute); }
+  @media (max-width: 900px) { .layout { grid-template-columns: 1fr; grid-template-areas: "masthead" "article"; } aside.toc { display: none; } main.article { padding: 32px 24px 60px; } }
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <header class="masthead">
+    <div class="masthead-top">
+      <div class="left">
+        <span>BMAD CIS · Creative Intelligence Suite</span>
+        <span>Skill · bmad-cis-problem-solving</span>
+        <span>Agent · Dr. Quinn (Master Problem Solver)</span>
+      </div>
+    </div>
+    <h1 class="title">Problem Solving <em>· Diagnose Before You Prescribe</em></h1>
+    <p class="subtitle">A systematic 9-step workflow (step 9 optional) that refuses to jump to solutions — diagnose and bound the problem, drill to root cause, map forces and constraints, then generate and evaluate solutions before planning implementation and monitoring.</p>
+    <dl class="meta-grid">
+      <div><dt>Skill code</dt><dd>bmad-cis-problem-solving</dd></div>
+      <div><dt>Menu code</dt><dd>PS</dd></div>
+      <div><dt>Agent</dt><dd>Dr. Quinn</dd></div>
+      <div><dt>Output</dt><dd>problem-solution-{date}.md</dd></div>
+      <div><dt>Steps</dt><dd>9 (step 9 optional)</dd></div>
+      <div><dt>Phase</dt><dd>anytime</dd></div>
+    </dl>
+  </header>
+
+  <aside class="toc">
+    <nav>
+      <div class="toc-label">§ WHAT</div>
+      <a href="#what-overview">Skill Overview</a>
+      <a href="#step-flow">9-Step Flow</a>
+      <div class="toc-label">§ WHY</div>
+      <a href="#why-diagnose-first">Why Diagnose Before Solving</a>
+      <a href="#why-checkpoints">Why Energy Checkpoints</a>
+      <div class="toc-label">§ HOW</div>
+      <a href="#before-calling">Before Calling This Skill</a>
+      <a href="#toolkit">Applied Toolkit</a>
+      <a href="#guardrails">Behavioral Constraints</a>
+    </nav>
+  </aside>
+
+  <main class="article">
+
+    <section id="what-overview">
+      <h2 class="sec-heading"><span class="marker">§ WHAT</span>Problem Solving — <em>What does this skill do?</em></h2>
+      <dl class="persona-block">
+        <dt>Skill code</dt><dd><code>bmad-cis-problem-solving</code></dd>
+        <dt>Agent</dt><dd>Dr. Quinn — Master Problem Solver. "Sherlock Holmes meets scientist" style: deductive, curious, celebrates "Aha!" breakthroughs.</dd>
+        <dt>Trigger</dt><dd><em>"guide me through structured problem solving"</em> · <em>"I want to crack this challenge with guided problem solving techniques"</em></dd>
+        <dt>Input</dt><dd>Problem description and context; optional <code>--data</code> context documents and <code>solving-methods.csv</code> (both loaded before Step 1).</dd>
+        <dt>Output</dt><dd><code>{output_folder}/problem-solution-{date}.md</code>, built from <code>template.md</code>.</dd>
+      </dl>
+      <blockquote class="quote">"You are a systematic problem-solving facilitator. Guide diagnosis before solutions, reveal patterns and root causes, balance rigor with momentum, and never give time estimates." — Dr. Quinn's Role, verbatim from SKILL.md</blockquote>
+      <p>Dr. Quinn diagnoses complex problems systematically, identifies root causes, generates solutions, and produces an actionable implementation and validation plan. The workflow refuses to shortcut to solutions: it forces a refined problem statement, boundary analysis, and root-cause work across steps 1-4 before any solution options are generated in step 5.</p>
+
+      <h3 class="sub-heading" id="step-flow">9-Step Flow</h3>
+      <div class="flow-steps">
+        <div class="flow-step"><div class="flow-step-num">1</div><div class="flow-step-body"><div class="flow-step-title">Define and refine the problem</div><div class="flow-step-desc">Gather what's wrong, who's affected, when/where it occurs, impact, success criteria. Apply Problem Statement Refinement to turn a vague complaint into a precise statement.</div></div></div>
+        <div class="flow-step"><div class="flow-step-num">2</div><div class="flow-step-body"><div class="flow-step-title">Diagnose and bound the problem</div><div class="flow-step-desc">Is/Is Not Analysis maps where/when/who the problem occurs vs. doesn't, surfacing patterns from the boundaries.</div></div></div>
+        <div class="flow-step"><div class="flow-step-num">3</div><div class="flow-step-body"><div class="flow-step-title">Conduct root cause analysis</div><div class="flow-step-desc">Select 2-3 diagnosis methods (Five Whys, Fishbone Diagram, Systems Thinking) and drill beyond symptoms to root causes.</div></div></div>
+        <div class="flow-step"><div class="flow-step-num">4</div><div class="flow-step-body"><div class="flow-step-title">Analyze forces and constraints</div><div class="flow-step-desc">Force Field Analysis (driving vs. restraining forces) plus Constraint Identification, synthesized into key insights.</div></div></div>
+        <div class="flow-step"><div class="flow-step-num">5</div><div class="flow-step-body"><div class="flow-step-title">Generate solution options<span class="flow-step-tag">⚡ checkpoint</span></div><div class="flow-step-desc">Select 2-4 generation methods (TRIZ, Morphological Analysis, Lateral Thinking, Assumption Busting, Reverse Brainstorming) and generate 10-15+ ideas spanning incremental to breakthrough.</div></div></div>
+        <div class="flow-step"><div class="flow-step-num">6</div><div class="flow-step-body"><div class="flow-step-title">Evaluate and select solution</div><div class="flow-step-desc">Define evaluation criteria with the user, apply a Decision Matrix or Cost-Benefit Analysis, and recommend the optimal solution with clear rationale.</div></div></div>
+        <div class="flow-step"><div class="flow-step-num">7</div><div class="flow-step-body"><div class="flow-step-title">Plan implementation</div><div class="flow-step-desc">Define strategy (pilot / phased / big bang) and build an action plan — steps, sequence, dependencies, ownership, resources — referencing the PDCA Cycle.</div></div></div>
+        <div class="flow-step"><div class="flow-step-num">8</div><div class="flow-step-body"><div class="flow-step-title">Establish monitoring and validation<span class="flow-step-tag">⚡ checkpoint</span></div><div class="flow-step-desc">Define success metrics, validation approach, pilot testing; identify risks and mitigation.</div></div></div>
+        <div class="flow-step"><div class="flow-step-num">9</div><div class="flow-step-body"><div class="flow-step-title">Capture lessons learned <em>(optional)</em></div><div class="flow-step-desc">Reflect on what worked, what to do differently, and recurring patterns.</div></div></div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <section id="why-diagnose-first">
+      <h2 class="sec-heading"><span class="marker why">§ WHY</span>Design Rationale</h2>
+      <h3 class="sub-heading">Why diagnose before solving</h3>
+      <p class="lede">Dr. Quinn's Facilitation Principles, verbatim: "guide through diagnosis before jumping to solutions" and "help them think systematically, not do thinking for them."</p>
+      <p>The most common failure mode in problem-solving is treating a symptom as the problem. Steps 1-4 exist specifically to prevent that: refine the statement, bound it with Is/Is Not analysis, and drill to root cause with at least one dedicated method — only then does step 5 open the door to generating solutions. Skipping ahead defeats the entire design of the workflow.</p>
+      <h3 class="sub-heading" id="why-checkpoints">Why energy checkpoints at steps 5 and 8</h3>
+      <p>The SKILL.md's own principles call out to "monitor energy — problem-solving is mentally intensive." Step 5 (solution generation, 10-15+ ideas across multiple methods) and step 8 (monitoring/validation planning) are the two most demanding steps, so real check-ins pause the workflow there, verbatim:</p>
+      <blockquote class="quote">"We've done solid diagnostic work. How's your energy? Ready to shift into solution generation, or want a quick break?" (after Step 4, before Step 5)</blockquote>
+      <blockquote class="quote">"Almost there! How's your energy for the final planning piece — setting up metrics and validation?" (after Step 7, before Step 8)</blockquote>
+    </section>
+
+    <hr class="divider">
+
+    <section id="before-calling">
+      <h2 class="sec-heading"><span class="marker how">§ HOW</span>Using This Skill</h2>
+      <h3 class="sub-heading">Before calling this skill</h3>
+      <ul class="checklist">
+        <li>Have a concrete description of what's wrong, ideally already noting who's affected and when/where it occurs.</li>
+        <li><code>solving-methods.csv</code> (categorized diagnosis/synthesis/creative/evaluation/implementation methods) loads automatically before Step 1 — no action needed, but its categories are referenced throughout.</li>
+        <li>Optional: supply context documents via <code>--data</code>.</li>
+      </ul>
+
+      <h3 class="sub-heading" id="toolkit">Applied Toolkit</h3>
+      <div class="toolkit-grid">
+        <div class="toolkit-card"><div class="t-name">Is/Is Not Analysis</div><div class="t-desc">Boundary mapping.</div></div>
+        <div class="toolkit-card"><div class="t-name">Five Whys</div><div class="t-desc">Root-cause drilling.</div></div>
+        <div class="toolkit-card"><div class="t-name">Fishbone Diagram</div><div class="t-desc">Cause categorization.</div></div>
+        <div class="toolkit-card"><div class="t-name">Systems Thinking</div><div class="t-desc">Structural cause analysis.</div></div>
+        <div class="toolkit-card"><div class="t-name">Force Field Analysis</div><div class="t-desc">Driving vs. restraining forces.</div></div>
+        <div class="toolkit-card"><div class="t-name">Theory of Constraints</div><div class="t-desc">Bottleneck-focused analysis.</div></div>
+        <div class="toolkit-card"><div class="t-name">TRIZ</div><div class="t-desc">Inventive-problem-solving patterns.</div></div>
+        <div class="toolkit-card"><div class="t-name">Morphological Analysis</div><div class="t-desc">Combinatorial idea generation.</div></div>
+        <div class="toolkit-card"><div class="t-name">Lateral Thinking</div><div class="t-desc">Non-linear idea generation.</div></div>
+        <div class="toolkit-card"><div class="t-name">Decision Matrix</div><div class="t-desc">Weighted-criteria evaluation.</div></div>
+        <div class="toolkit-card"><div class="t-name">Cost-Benefit Analysis</div><div class="t-desc">Economic solution evaluation.</div></div>
+        <div class="toolkit-card"><div class="t-name">PDCA Cycle</div><div class="t-desc">Plan-Do-Check-Act implementation loop.</div></div>
+      </div>
+
+      <h3 class="sub-heading" id="guardrails">Behavioral Constraints &amp; Facilitation Principles</h3>
+      <p style="font-size:12px;color:var(--ink-mute);margin-bottom:10px;">Verbatim from SKILL.md — not paraphrased.</p>
+      <ul class="checklist">
+        <li>Do not give time estimates.</li>
+        <li>After every <code>&lt;template-output&gt;</code>, immediately save the current artifact, show a checkpoint separator, and present <code>[a] Advanced Elicitation</code> · <code>[c] Continue</code> · <code>[p] Party-Mode</code> · <code>[y] YOLO</code>.</li>
+        <li>Guide through diagnosis before jumping to solutions.</li>
+        <li>Ask questions that reveal patterns and root causes.</li>
+        <li>Help them think systematically, not do thinking for them.</li>
+        <li>Balance rigor with momentum — don't get stuck in analysis.</li>
+        <li>Celebrate insights when they emerge.</li>
+        <li>Monitor energy — problem-solving is mentally intensive.</li>
+      </ul>
+    </section>
+
+  </main>
+
+</div>
+</body>
+</html>
