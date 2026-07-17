@@ -38,10 +38,10 @@ No `npm install` is required — the generator uses only built-in modules.
 git clone https://github.com/larion-tech-innovation/BMAD-Hub.git
 cd BMAD-Hub
 
-# Generate the full index (BMAD + CIS)
+# Generate the full index (BMAD Structure + CIS)
 node scripts/gen_index.mjs
 
-# Or generate only the BMAD section
+# Or generate only the BMAD Structure section
 node scripts/gen_index.mjs --bmad-only
 
 # Preview locally (any static server works)
@@ -61,7 +61,7 @@ BMAD-Hub/
 │   └── gen_index.mjs          # Builds index.html from the HTML content dirs
 ├── BMAD/
 │   ├── bmad-bmm-*.html        # BMM documentation
-│   └── bmadskills/            # Skills, WDS, TEA, and SPP pages
+│   └── bmadskills/            # Skills, WDS and TEA pages
 └── BMAD_CIS/
     └── bmad-cis/              # CIS agents and skills
 ```
@@ -69,7 +69,7 @@ BMAD-Hub/
 ## How it works
 
 `scripts/gen_index.mjs` scans the `BMAD/` and `BMAD_CIS/` directories for
-`.html` files, groups them into sections (core skills, TEA, WDS, CIS agents,
+`.html` files, groups them into sections (skills, TEA, WDS, CIS agents,
 etc.), and writes a single self-contained `index.html` with client-side search.
 
 - Files matching patterns in `.gitignore` are excluded from the index.
@@ -101,8 +101,7 @@ external build tooling.
 
 ## License
 
-See the repository for license details. If no license file is present, please
-open an issue to clarify usage terms before redistributing.
+MIT License — see [LICENSE](LICENSE) for details.
 
 ---
 
