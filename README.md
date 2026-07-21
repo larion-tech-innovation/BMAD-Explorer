@@ -18,7 +18,7 @@
 
 BMAD Explorer is a lightweight, zero-dependency site that collects BMAD-related
 reference material — process maps, agent guides, and knowledge references for
-AI-driven software development at LARION — as browsable HTML pages and exposes
+AI-driven software development — as browsable HTML pages and exposes
 them through a single curated landing page.
 
 The landing page indexes three top-level references:
